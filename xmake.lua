@@ -18,6 +18,6 @@ for _, kind in pairs({"static", "shared", "object"}) do
         else
             set_default(false)
         end
-        add_files("*.c")
+        add_files("src/*.c")
     end)
 end
