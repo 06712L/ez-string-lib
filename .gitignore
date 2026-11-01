@@ -1,0 +1,12 @@
+# Xmake cache
+.xmake/
+build/
+
+# VS code
+.vscode/
+
+# Cache
+.cache/
+
+# Compilation database for lsp
+compile_commands.json
