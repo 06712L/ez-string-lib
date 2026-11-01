@@ -1,6 +1,7 @@
 #include "test-lib.h"
 #include <stdint.h>
 #include <stddef.h>
+#include <stdlib.h>
 
 const char *test_string[] =
 {
@@ -37,3 +38,5 @@ signed int sign(const int64_t num)
     else if(num > 0) return 1;
     else return 0;
 }
+
+int32_t rands(int32_t min, int32_t max) {return rand() % (max - min + 1) + min;}
