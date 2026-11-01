@@ -5,106 +5,124 @@
 #include <sys/types.h>
 #include "ez-string.h"
 
-static void strmove(char *str_head, ssize_t move_dist)
+typedef struct replace_flag
 {
-    if(move_dist == 0) return;
-    char *str_tail = ez_strchr(str_head, '\0');
+    const char *flag;
+    struct replace_flag *next;
+}replace_flag;
 
-    // Decide moving drc
-    enum
+static replace_flag* add_replace_flag(const char *flag, replace_flag *node_head)
+{
+    replace_flag *ptr = malloc(sizeof(replace_flag));
+    if(ptr == NULL) return NULL;
+    ptr->flag = flag;
+    ptr->next = NULL;
+    if(node_head != NULL)
     {
-        RIGHT = 1,
-        LEFT = -1,
-    };
-    const int8_t  motion = (move_dist > 0) ? RIGHT:LEFT;
+        for(; node_head->next != NULL; node_head = node_head->next);
+        node_head->next = ptr;
+    }
+    return ptr;
+}
 
-    for(; move_dist != 0; move_dist -= motion)
+static void free_all_replace_flag(replace_flag *node_head)
+{
+    if(node_head == NULL) return;
+    replace_flag *next;
+    for(; node_head != NULL; node_head = next)
     {
-        char *ptr = (move_dist > 0) ? str_tail:str_head;
-        const char *end_flag = (move_dist > 0) ? str_head:str_tail + 1;
-        str_head += motion;
-        str_tail += motion;
-        while(ptr != end_flag)
-        {
-            ptr[motion] = *ptr;
-            ptr -= motion;
-        }
+        next = node_head->next;
+        free(node_head);
     }
 }
 
-char* ez_strreplace(char *str, const char *replace_str, const char *target_str, int replace_mode, bool in_place, bool auto_realloc)
+char* ez_strreplace(char *str, const char *target_str, const char *replace_str, int replace_mode, bool in_place, bool auto_realloc)
 {
     // Check arg
-    if(str == NULL || replace_str == NULL || target_str == NULL) return NULL;
+    if(str == NULL || target_str == NULL || replace_str == NULL) return NULL;
     if(str[0] == '\0') return NULL;
-    if(replace_str[0] == '\0') return NULL;
+    if(target_str[0] == '\0') return NULL;
     if(replace_mode < EZ_STRREPLACE_FIRST || replace_mode > EZ_STRREPLACE_ALL) return NULL;
 
-    // Set MEM about
-    size_t str_mem_size = ez_strlen(str) + 1;
-    const bool ip_ar = (!in_place || auto_realloc);
-    if(ip_ar)
+    // Set size
+    const size_t target_str_len = ez_strlen(target_str);
+    const size_t replace_str_len = ez_strlen(replace_str);
+    const ssize_t rt_diff = (ssize_t)replace_str_len - (ssize_t)target_str_len;
+    size_t after_replace_size = ez_strlen(str) + 1;
+    replace_flag *node_head = NULL;
+    bool change_size = true;
+    for(const char *ptr = str; ptr != NULL; ptr += target_str_len)
     {
-        if(!in_place)
+        ptr = ez_strstr(ptr, target_str);
+        if(ptr == NULL)
         {
-            char *tmp = malloc(str_mem_size);
-            if(tmp == NULL) return NULL;
-            str = ez_strcpy(tmp, str);
+            if(node_head == NULL) return NULL;
+            break;
         }
+        {
+            replace_flag *tmp_flag = add_replace_flag(ptr, node_head);
+            if(tmp_flag == NULL)
+            {
+                free_all_replace_flag(node_head);
+                return NULL;
+            }
+            if(node_head == NULL) node_head = tmp_flag;
+        }
+        if(change_size)
+        {
+            after_replace_size += rt_diff;
+            if(replace_mode == EZ_STRREPLACE_LAST) change_size = false;
+        }
+        if(replace_mode == EZ_STRREPLACE_FIRST) break;
     }
 
-    // Backup
-    char *backup_str = NULL;
+    // Start replacing
+    char *tmp_str = malloc(after_replace_size);
+    if(tmp_str == NULL)
+    {
+        free_all_replace_flag(node_head);
+        return NULL;
+    }
+    {
+        replace_flag *node = node_head;
+        char *tmp_str_ptr = tmp_str;
+        const char *str_ptr = str;
+        for(; *str_ptr != '\0'; str_ptr++, tmp_str_ptr++)
+        {
+            if(str_ptr == node->flag)
+            {
+                if(replace_mode == EZ_STRREPLACE_ALL || replace_mode == EZ_STRREPLACE_FIRST || (replace_mode == EZ_STRREPLACE_LAST && node->next == NULL))
+                    (void)ez_strcpy(tmp_str_ptr, replace_str);
+                tmp_str_ptr += replace_str_len;
+                str_ptr += target_str_len;
+                if(node->next == NULL)
+                {
+                    (void)ez_strcpy(tmp_str_ptr, str_ptr);
+                    break;
+                }
+                node = node->next;
+            }
+            else *tmp_str_ptr = *str_ptr;
+        }
+        free_all_replace_flag(node_head);
+    }
+
+    // Return results
     if(in_place)
     {
-        backup_str = malloc(str_mem_size);
-        if(backup_str == NULL) return NULL;
-        (void)ez_strcpy(backup_str, str);
-    }
-
-    // Start replace
-    char *str_ptr = str;
-    const size_t replace_str_len = ez_strlen(replace_str);
-    const size_t target_str_len = ez_strlen(target_str);
-    const ssize_t rt_diff_size = (ssize_t)target_str_len - (ssize_t)replace_str_len;
-    while(*str_ptr != '\0')
-    {
-        str_ptr = ez_strstr(str_ptr, replace_str);
-        if(str_ptr == NULL)
+        if(auto_realloc)
         {
-            if(!in_place) free(str);
-            else
-            {
-                str = ez_strcpy(str, backup_str);
-                free(backup_str);
-            }
-            return NULL;
-        }
-        const char *end_flag = str_ptr + replace_str_len;
-        if(rt_diff_size != 0 || ip_ar)
-        {
-            // Handle possible address changes caused by realloc
-            const size_t end_flag_dist = end_flag - str;
-            const size_t str_ptr_dist = str_ptr - str;
-
-            str_mem_size += rt_diff_size;
-            if(rt_diff_size < 0) strmove((char*)end_flag, rt_diff_size);
-            char *tmp_ptr = realloc(str, str_mem_size);
+            char *tmp_ptr = realloc(str, after_replace_size);
             if(tmp_ptr == NULL)
             {
-                if(!in_place) free(str);
-                else
-                {
-                    str = ez_strcpy(str, backup_str);
-                    free(backup_str);
-                }
+                free(tmp_str);
                 return NULL;
             }
             str = tmp_ptr;
-            str_ptr = str + str_ptr_dist;
-            end_flag = str + end_flag_dist;
-            if(rt_diff_size > 0) strmove((char*)end_flag, rt_diff_size);
         }
-        // TODO: Implement replace logic
+        (void)ez_strcpy(str, tmp_str);
+        free(tmp_str);
+        return str;
     }
+    else return tmp_str;
 }
