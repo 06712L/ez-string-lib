@@ -11,17 +11,13 @@ typedef struct replace_flag
     struct replace_flag *next;
 }replace_flag;
 
-static replace_flag* add_replace_flag(const char *flag, replace_flag *node_head)
+static replace_flag* add_replace_flag(const char *flag, replace_flag *node_tail)
 {
     replace_flag *ptr = malloc(sizeof(replace_flag));
     if(ptr == NULL) return NULL;
     ptr->flag = flag;
     ptr->next = NULL;
-    if(node_head != NULL)
-    {
-        for(; node_head->next != NULL; node_head = node_head->next);
-        node_head->next = ptr;
-    }
+    if(node_tail != NULL) node_tail->next = ptr;
     return ptr;
 }
 
@@ -50,30 +46,31 @@ char* ez_strreplace(char *str, const char *target_str, const char *replace_str, 
     const ssize_t rt_diff = (ssize_t)replace_str_len - (ssize_t)target_str_len;
     size_t after_replace_size = ez_strlen(str) + 1;
     replace_flag *node_head = NULL;
-    bool change_size = true;
-    for(const char *ptr = str; ptr != NULL; ptr += target_str_len)
     {
-        ptr = ez_strstr(ptr, target_str);
-        if(ptr == NULL)
+        replace_flag *node_tail = NULL;
+        bool change_size = true;
+        for(const char *ptr = str; ptr != NULL; ptr += target_str_len)
         {
-            if(node_head == NULL) return NULL;
-            break;
-        }
-        {
-            replace_flag *tmp_flag = add_replace_flag(ptr, node_head);
-            if(tmp_flag == NULL)
+            ptr = ez_strstr(ptr, target_str);
+            if(ptr == NULL)
             {
-                free_all_replace_flag(node_head);
-                return NULL;
+                if(node_head == NULL) return NULL;
+                break;
             }
-            if(node_head == NULL) node_head = tmp_flag;
+                node_tail = add_replace_flag(ptr, node_tail);
+                if(node_tail == NULL)
+                {
+                    free_all_replace_flag(node_head);
+                    return NULL;
+                }
+                if(node_head == NULL) node_head = node_tail;
+            if(change_size)
+            {
+                after_replace_size += rt_diff;
+                if(replace_mode == EZ_STRREPLACE_LAST) change_size = false;
+            }
+            if(replace_mode == EZ_STRREPLACE_FIRST) break;
         }
-        if(change_size)
-        {
-            after_replace_size += rt_diff;
-            if(replace_mode == EZ_STRREPLACE_LAST) change_size = false;
-        }
-        if(replace_mode == EZ_STRREPLACE_FIRST) break;
     }
 
     // Start replacing
