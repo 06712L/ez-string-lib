@@ -32,7 +32,7 @@ static inline char* strstr_3c(const unsigned char *uhaystack, const unsigned cha
     uhaystack += 3;
     for(uint8_t c = *uhaystack; c != '\0' && needle != haystack; c = *++uhaystack)
     {
-        haystack = (haystack << 8 | c) & 0x0FFF; // 0000-0000 1111-1111 1111-1111 1111-1111 / Bit mask for 3 char
+        haystack = uhaystack[-2] << 16 | uhaystack[-1] << 8 | c;
     }
     if(needle == haystack) return (char*)uhaystack - 3;
     return NULL;
