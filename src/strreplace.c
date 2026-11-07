@@ -44,7 +44,7 @@ char* ez_strreplace(char *str, const char *target_str, const char *replace_str, 
     const size_t target_str_len = ez_strlen(target_str);
     const size_t replace_str_len = ez_strlen(replace_str);
     const ssize_t rt_diff = (ssize_t)replace_str_len - (ssize_t)target_str_len;
-    size_t after_replace_size = ez_strlen(str) + 1;
+    size_t after_replace_size = ez_strlen(str) + 1; // str_size + '\0'
     replace_flag *node_head = NULL;
     {
         replace_flag *node_tail = NULL;
@@ -101,6 +101,7 @@ char* ez_strreplace(char *str, const char *target_str, const char *replace_str, 
             }
             else *tmp_str_ptr = *str_ptr;
         }
+        *tmp_str_ptr = '\0';
         free_all_replace_flag(node_head);
     }
 
