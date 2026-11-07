@@ -12,9 +12,6 @@ set_license("MIT")
 for _, kind in pairs({"static", "shared", "object"}) do
     target("ez-string-"..kind, function()
         set_kind(kind)
-        set_policy("build.sanitizer.address", true)
-        set_policy("build.sanitizer.leak", true)
-        set_policy("build.sanitizer.undefined", true)
         set_basename("ez-string")
         if kind == "static" or kind == "shared" then
             set_default(true)
@@ -36,6 +33,9 @@ for _, file in ipairs(os.files("test/*.c")) do
     if name ~= "test-lib" then
         target(name, function()
             set_kind("binary")
+            set_policy("build.sanitizer.address", true)
+            set_policy("build.sanitizer.leak", true)
+            set_policy("build.sanitizer.undefined", true)
             set_default(false)
             add_includedirs("src")
             add_files("test/"..name..".c")
