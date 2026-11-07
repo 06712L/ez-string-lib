@@ -61,6 +61,7 @@ static struct test_results test_strreplace()
                 results.error = true;
                 return results;
             }
+            results.test_str = tmp_str;
         }
         free(results.test_str);
         results.test_str = NULL;
