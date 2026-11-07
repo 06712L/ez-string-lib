@@ -84,7 +84,7 @@ char* ez_strreplace(char *str, const char *target_str, const char *replace_str, 
         replace_flag *node = node_head;
         char *tmp_str_ptr = tmp_str;
         const char *str_ptr = str;
-        for(; *str_ptr != '\0'; str_ptr++, tmp_str_ptr++)
+        while(*str_ptr != '\0')
         {
             if(str_ptr == node->flag)
             {
@@ -99,7 +99,11 @@ char* ez_strreplace(char *str, const char *target_str, const char *replace_str, 
                 }
                 node = node->next;
             }
-            else *tmp_str_ptr = *str_ptr;
+            else
+            {
+                *tmp_str_ptr = *str_ptr;
+                str_ptr++, tmp_str_ptr++;
+            }
         }
         *tmp_str_ptr = '\0';
         free_all_replace_flag(node_head);
