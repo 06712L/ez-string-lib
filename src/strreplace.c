@@ -46,8 +46,8 @@ char* ez_strreplace(char *str, const char *target_str, const char *replace_str, 
     const ssize_t rt_diff = (ssize_t)replace_str_len - (ssize_t)target_str_len;
     size_t after_replace_size = ez_strlen(str) + 1; // str_size + '\0'
     replace_flag *node_head = NULL;
+    replace_flag *node_tail = NULL;
     {
-        replace_flag *node_tail = NULL;
         bool change_size = true;
         for(const char *ptr = str; ptr != NULL; ptr += target_str_len)
         {
@@ -80,16 +80,19 @@ char* ez_strreplace(char *str, const char *target_str, const char *replace_str, 
         free_all_replace_flag(node_head);
         return NULL;
     }
+
+    // Handle EZ_STRREPLACE_ALL
+    if(replace_mode == EZ_STRREPLACE_ALL)
     {
         replace_flag *node = node_head;
         char *tmp_str_ptr = tmp_str;
         const char *str_ptr = str;
+        size_t diff = (size_t)(node->flag - str);
         while(*str_ptr != '\0')
         {
             if(str_ptr == node->flag)
             {
-                if(replace_mode == EZ_STRREPLACE_ALL || replace_mode == EZ_STRREPLACE_FIRST || (replace_mode == EZ_STRREPLACE_LAST && node->next == NULL))
-                    (void)ez_strcpy(tmp_str_ptr, replace_str);
+                (void)ez_strcpy(tmp_str_ptr, replace_str);
                 tmp_str_ptr += replace_str_len;
                 str_ptr += target_str_len;
                 if(node->next == NULL)
@@ -98,16 +101,40 @@ char* ez_strreplace(char *str, const char *target_str, const char *replace_str, 
                     break;
                 }
                 node = node->next;
+                diff = (size_t)(node->flag - str_ptr);
             }
             else
             {
-                *tmp_str_ptr = *str_ptr;
-                str_ptr++, tmp_str_ptr++;
+                (void)ez_strncpy(tmp_str_ptr, str_ptr, diff);
+                tmp_str_ptr += diff;
+                str_ptr += diff;
             }
         }
         *tmp_str_ptr = '\0';
-        free_all_replace_flag(node_head);
     }
+
+    // Handle EZ_STRREPLACE_FIRST and EZ_STRREPLACE_LAST
+    else
+    {
+        replace_flag *node = (replace_mode == EZ_STRREPLACE_FIRST) ? node_head:node_tail;
+        const char *str_ptr = str;
+        char *tmp_str_ptr = tmp_str;
+        size_t diff = (size_t)(node->flag - str);
+
+        // Head
+        (void)ez_strncpy(tmp_str_ptr, str_ptr, diff);
+        tmp_str_ptr += diff;
+        str_ptr += diff;
+
+        // Replace
+        (void)ez_strcpy(tmp_str_ptr, replace_str);
+        tmp_str_ptr += replace_str_len;
+        str_ptr += target_str_len;
+
+        // Tail
+        (void)ez_strcpy(tmp_str_ptr, str_ptr);
+    }
+    free_all_replace_flag(node_head);
 
     // Return results
     if(in_place)
