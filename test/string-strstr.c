@@ -16,7 +16,7 @@ struct test_results
 
 struct test_results test_strstr(void)
 {
-    struct test_results resilts = {NULL, NULL, NULL, 0, false};
+    struct test_results results = {NULL, NULL, NULL, 0, false};
     const char *test_strstr[] =
     {
         "ab",
@@ -40,25 +40,25 @@ struct test_results test_strstr(void)
         "2<3=?",
         NULL
     };
-    for(resilts.i = 0; test_strstr[resilts.i] != NULL && test_string[resilts.i] != NULL; resilts.i++)
+    for(results.i = 0; test_strstr[results.i] != NULL && test_string[results.i] != NULL; results.i++)
     {
-        resilts.string_head = test_string[resilts.i];
-        resilts.test1 = ez_strstr(test_string[resilts.i], test_strstr[resilts.i]);
-        resilts.test2 = strstr(test_string[resilts.i], test_strstr[resilts.i]);
-        if(resilts.test1 != resilts.test2)
+        results.string_head = test_string[results.i];
+        results.test1 = ez_strstr(test_string[results.i], test_strstr[results.i]);
+        results.test2 = strstr(test_string[results.i], test_strstr[results.i]);
+        if(results.test1 != results.test2)
         {
-            resilts.error = true;
-            return resilts;
+            results.error = true;
+            return results;
         }
-        resilts.string_head = NULL;
-        resilts.test1 = NULL;
-        resilts.test2 = NULL;
+        results.string_head = NULL;
+        results.test1 = NULL;
+        results.test2 = NULL;
     }
-    resilts.string_head = test_string[0];
-    if((resilts.test1 = ez_strstr(test_string[0], NULL)) != resilts.string_head)
+    results.string_head = test_string[0];
+    if((results.test1 = ez_strstr(test_string[0], NULL)) != results.string_head)
     {
-        resilts.error = true;
-        return resilts;
+        results.error = true;
+        return results;
     }
     return (struct test_results){NULL, NULL, NULL, 0, false};
 }
