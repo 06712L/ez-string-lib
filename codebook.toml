@@ -1,0 +1,18 @@
+words = [
+    "aaaaaaaaaaaabc",
+    "aab",
+    "ababc",
+    "bcaaaaaaaaaaabc",
+    "meowmeow",
+    "oweow",
+    "rands",
+    "strchr",
+    "strcpy",
+    "strncpy",
+    "strrchr",
+    "strreplace",
+    "strstr",
+    "tac",
+    "uhaystack",
+    "uneedle",
+]
