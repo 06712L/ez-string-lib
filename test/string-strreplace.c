@@ -28,7 +28,7 @@ struct test_results
 #define TEST_RESULTS_MEM_ERROR (struct test_results){1, NULL, NULL, NULL, true}
 #define TEST_RESULTS_PASS (struct test_results){0, NULL, NULL, NULL, false}
 
-static const struct test_str test_strrplace[] =
+static const struct test_str test_strrplace_str[] =
 {
     {"ab", "b", EZ_STRREPLACE_ALL, false,  "ab"},
     {"d", "oh oh oh OH OH! OH NO!", EZ_STRREPLACE_ALL, false,  NULL},
@@ -42,18 +42,18 @@ static const struct test_str test_strrplace[] =
 static struct test_results test_strreplace()
 {
     struct test_results results = {0, NULL, false};
-    for(results.i = 0; test_strrplace[results.i].replace_mode != 10; results.i++)
+    for(results.i = 0; test_strrplace_str[results.i].replace_mode != 10; results.i++)
     {
         // Set
-        results.test = &test_strrplace[results.i];
+        results.test = &test_strrplace_str[results.i];
         results.str = test_string[results.i];
-        if(test_strrplace[results.i].in_place) results.test_str = ez_strcpy(NULL, results.str);
+        if(test_strrplace_str[results.i].in_place) results.test_str = ez_strcpy(NULL, results.str);
         else results.test_str = NULL;
         if(results.test == NULL) return TEST_RESULTS_MEM_ERROR;
 
         // Start testing
         {
-            char *tmp_str = ez_strreplace((char*)((test_strrplace[results.i].in_place) ? results.test_str:results.str), results.test->target_str,\
+            char *tmp_str = ez_strreplace((char*)((test_strrplace_str[results.i].in_place) ? results.test_str:results.str), results.test->target_str,\
             results.test->replace_str, results.test->replace_mode, results.test->in_place, true);
             if((results.test->answer != NULL) ? (tmp_str == NULL):(tmp_str != NULL) || (results.test->answer != NULL) ? ez_strcmp(tmp_str, results.test->answer):0)
             {
