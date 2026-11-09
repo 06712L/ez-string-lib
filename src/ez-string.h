@@ -23,6 +23,7 @@ int ez_strcmp(const char *str1, const char *str2);
 char *ez_strcpy(char *target, const char *str);
 char *ez_strstr(const char *haystack, const char *needle);
 char *ez_strchr(const char *s, const char c);
+char *ez_strrchr(const char *s, const char c);
 char* ez_strreplace(char *str, const char *target_str, const char *replace_str, int replace_mode, bool in_place, bool auto_realloc);
 char *ez_strncpy(char *target, const char *str, const size_t n);
 
