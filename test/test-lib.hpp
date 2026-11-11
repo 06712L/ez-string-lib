@@ -1,5 +1,5 @@
-#ifndef TEST_LIB_H
-#define TEST_LIB_H
+#ifndef TEST_LIB_HPP
+#define TEST_LIB_HPP
 
 #include <string>
 #include <array>
