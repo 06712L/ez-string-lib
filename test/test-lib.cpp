@@ -1,9 +1,9 @@
-#include "test-lib.h"
-#include <stdint.h>
-#include <stddef.h>
-#include <stdlib.h>
+#include "test-lib.hpp"
+#include <array>
+#include <string>
 
-const char *test_string[] =
+
+const std::array<std::string, 24> test_lib::test_string =
 {
     "aab",
     "ababc",
@@ -27,16 +27,11 @@ const char *test_string[] =
     "test@test.test",
     "~/Download/test.mp4",
     "long long long long long long long long long long long long long long long long long long long long long long",
-    "\0",
-    "\0",
-    NULL
+    "",
+    "OH NO NO NO"
 };
 
-signed int sign(const int64_t num)
+signed int test_lib::sign(signed int num)
 {
-    if(num < 0) return -1;
-    else if(num > 0) return 1;
-    else return 0;
+    return (num > 0) - (num < 0);
 }
-
-int32_t rands(int32_t min, int32_t max) {return rand() % (max - min + 1) + min;}
