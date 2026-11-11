@@ -110,7 +110,6 @@ char* ez_strreplace(char *str, const char *target_str, const char *replace_str, 
                 str_ptr += diff;
             }
         }
-        *tmp_str_ptr = '\0';
     }
 
     // Handle EZ_STRREPLACE_FIRST and EZ_STRREPLACE_LAST
