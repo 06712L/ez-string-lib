@@ -1,13 +1,58 @@
-#include <cstdlib>
 #include <gtest/gtest.h>
 #include <cstring>
-#include <string>
+#include <memory>
 #include "ez-string.h"
 #include "test-lib.hpp"
 
-TEST(string, strncpy)
+TEST(strncpy, null_target)
 {
-    EXPECT_EQ(ez_strncpy(nullptr, nullptr, 0), nullptr) << "NULL arg test fail\n";
+    EXPECT_EQ(ez_strncpy(nullptr, "test", 4), nullptr);
+}
+
+TEST(strncpy, null_str)
+{
+    std::unique_ptr<char[]> target = std::make_unique<char[]>(3);
+    EXPECT_EQ(ez_strncpy(target.get(), nullptr, 2), nullptr);
+}
+
+TEST(strncpy, zero_n)
+{
+    std::unique_ptr<char[]> target = std::make_unique<char[]>(3);
+    EXPECT_EQ(ez_strncpy(target.get(), "zn", 0), target.get());
+}
+
+TEST(strncpy, copy_first_to_len_m1)
+{
+    for(const std::string &str : test_lib::test_string)
+    {
+        if(str.size() < 2)
+        {
+            continue;
+        }
+        const std::size_t n = str.size() - 1;
+        std::unique_ptr<char[]> ez_test;
+        std::unique_ptr<char[]> std_test;
+        try
+        {
+            ez_test = std::make_unique<char[]>(str.size());
+            std_test = std::make_unique<char[]>(str.size());
+        }
+        catch (const std::runtime_error &e)
+        {
+            FAIL() << "Memory alloc fail\n";
+        }
+
+        EXPECT_STREQ(ez_strncpy(ez_test.get(), str.c_str(), n), std::strncpy(std_test.get(), str.c_str(), n));
+    }
+}
+
+TEST(strncpy, copy_first_to_second)
+{
+    enum
+    {
+        N = 2,
+        SIZE = 3,
+    };
 
     for(const std::string &str : test_lib::test_string)
     {
@@ -15,34 +60,18 @@ TEST(string, strncpy)
         {
             continue;
         }
-        std::string ez_test;
-        std::string std_test;
+        std::unique_ptr<char[]> ez_test;
+        std::unique_ptr<char[]> std_test;
+        try
         {
-            // For ez_test
-            char *tmp1 = ez_strncpy(nullptr, str.c_str(), str.size() - 1);
-            if(tmp1 == nullptr)
-            {
-                FAIL() << "Memory alloc fail\n";
-            }
-
-            // For std_test
-            char *tmp2 = static_cast<char*>(std::malloc(str.size()));
-            if(tmp2 == nullptr)
-            {
-                std::free(tmp1);
-                FAIL() << "Memory alloc fail\n";
-            }
-            tmp2 = std::strncpy(tmp2, str.c_str(), str.size() - 1);
-            tmp2[str.size() - 1] = '\0';
-
-            ez_test = tmp1;
-            std_test = tmp2;
-
-            std::free(tmp1);
-            std::free(tmp2);
+            ez_test = std::make_unique<char[]>(SIZE);
+            std_test = std::make_unique<char[]>(SIZE);
         }
-        EXPECT_EQ(ez_test, std_test) \
-            << "str: " << str << '\n' \
-            << "n: " << str.size() - 1 << '\n';
+        catch (const std::runtime_error &e)
+        {
+            FAIL() << "Memory alloc fail\n";
+        }
+
+        EXPECT_STREQ(ez_strncpy(ez_test.get(), str.c_str(), N), std::strncpy(std_test.get(), str.c_str(), N));
     }
 }

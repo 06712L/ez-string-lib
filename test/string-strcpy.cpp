@@ -1,43 +1,38 @@
-#include <cstdlib>
 #include <gtest/gtest.h>
 #include <cstring>
-#include <string>
+#include <memory>
+#include <stdexcept>
 #include "ez-string.h"
 #include "test-lib.hpp"
 
-TEST(string, strcpy)
+TEST(strcpy, null_target)
 {
-    EXPECT_EQ(ez_strcpy(nullptr, nullptr), nullptr) << "NULL arg test fail\n";
+    EXPECT_EQ(ez_strcpy(nullptr, "test"), nullptr);
+}
 
+TEST(strcpy, null_str)
+{
+    std::unique_ptr<char[]> target = std::make_unique<char[]>(4);
+    EXPECT_EQ(ez_strcpy(target.get(), nullptr), nullptr);
+}
+
+TEST(strcpy, copy)
+{
     for(const std::string &str : test_lib::test_string)
     {
-        std::string ez_test;
-        std::string std_test;
+        const std::size_t str_size = str.size() + 1;
+        std::unique_ptr<char[]> ez_test;
+        std::unique_ptr<char[]> std_test;
+        try
         {
-            // For ez_test
-            char *tmp1 = ez_strcpy(nullptr, str.c_str());
-            if(tmp1 == nullptr)
-            {
-                FAIL() << "Memory alloc fail\n";
-            }
-
-            // For std_test
-            char *tmp2 = static_cast<char*>(std::malloc(str.size() + 1));
-            if(tmp2 == nullptr)
-            {
-                std::free(tmp1);
-                FAIL() << "Memory alloc fail\n";
-            }
-            tmp2 = std::strcpy(tmp2, str.c_str());
-
-            ez_test = tmp1;
-            std_test = tmp2;
-
-            std::free(tmp1);
-            std::free(tmp2);
+            ez_test = std::make_unique<char[]>(str_size);
+            std_test = std::make_unique<char[]>(str_size);
         }
-        EXPECT_EQ(ez_test, std_test) \
-            << "ez_strcpy return string: " << ez_test << '\n' \
-            << "std strcpy return string: " << std_test << '\n';
+        catch (const std::runtime_error &e)
+        {
+            FAIL() << "Memory alloc fail\n";
+        }
+
+        EXPECT_STREQ(ez_strcpy(ez_test.get(), str.c_str()), std::strcpy(std_test.get(), str.c_str()));
     }
 }
