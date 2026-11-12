@@ -12,6 +12,9 @@ extern "C" {
 
 enum
 {
+    // ERROR CODE
+    EZ_STRCMP_NULL = 256,
+
     // Replace mode
     EZ_STRREPLACE_FIRST = 0,
     EZ_STRREPLACE_LAST = 1,
