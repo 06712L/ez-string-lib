@@ -23,12 +23,6 @@ for _, kind in pairs({"static", "shared", "object"}) do
     end)
 end
 
--- for test
-target("test-lib")
-    set_kind("object")
-    set_default(false)
-    add_files("test/test-lib.cpp")
-
 for _, file in ipairs(os.files("test/*.cpp")) do
     local name = path.basename(file)
     if name ~= "test-lib" then
@@ -42,7 +36,7 @@ for _, file in ipairs(os.files("test/*.cpp")) do
             add_packages("gtest")
             add_links("gtest_main")
             add_files("test/"..name..".cpp")
-            add_deps("ez-string-object", "test-lib")
+            add_deps("ez-string-object")
             add_tests("test", {realtime_output = true})
         end)
     end
