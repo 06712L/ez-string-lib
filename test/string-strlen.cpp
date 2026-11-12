@@ -10,8 +10,6 @@ TEST(strlen, null_str)
 
 TEST(strlen, normal)
 {
-    EXPECT_EQ(ez_strlen(nullptr), 0) << "NULL arg test fail\n";
-
     for(const std::string &str : test_lib::test_string)
     {
         const std::size_t ez_test(ez_strlen(str.c_str()));
