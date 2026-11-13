@@ -12,15 +12,15 @@ TEST(strncpy, null_target)
 
 TEST(strncpy, null_str)
 {
-    std::unique_ptr<char[]> target = std::make_unique<char[]>(3);
-    EXPECT_EQ(ez_strncpy(target.get(), nullptr, 2), nullptr);
+    char target[3] = {0};
+    EXPECT_EQ(ez_strncpy(target, nullptr, 2), nullptr);
     EXPECT_EQ(errno, EINVAL);
 }
 
 TEST(strncpy, zero_n)
 {
-    std::unique_ptr<char[]> target = std::make_unique<char[]>(3);
-    EXPECT_EQ(ez_strncpy(target.get(), "zn", 0), target.get());
+    char target[3] = {0};
+    EXPECT_EQ(ez_strncpy(target, "zn", 0), target);
 }
 
 TEST(strncpy, copy_first_to_len_m1)
