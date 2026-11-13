@@ -10,7 +10,11 @@ char *ez_strdup(const char *str)
         return NULL;
     }
     char *tmp_str = malloc(ez_strlen(str) + 1); // str + '\0'
+    if(tmp_str == NULL)
+    {
+        errno = ENOMEM;
+        return NULL;
+    }
 
-    // Delegate NULL target handling to ez_strcpy().
     return ez_strcpy(tmp_str, str);
 }
