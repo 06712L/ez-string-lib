@@ -13,7 +13,7 @@ TEST(strcpy, null_target)
 
 TEST(strcpy, null_str)
 {
-    std::unique_ptr<char[]> target = std::make_unique<char[]>(4);
+    char target[2] = {0};
     EXPECT_EQ(ez_strcpy(target.get(), nullptr), nullptr);
     EXPECT_EQ(errno, EINVAL);
 }
