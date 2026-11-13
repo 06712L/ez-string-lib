@@ -7,16 +7,19 @@
 TEST(strcmp, all_null)
 {
     EXPECT_EQ(ez_strcmp(nullptr, nullptr), EZ_STRCMP_NULL);
+    EXPECT_EQ(errno, EINVAL);
 }
 
 TEST(strcmp, null_str1)
 {
     EXPECT_EQ(ez_strcmp(nullptr, "test"), EZ_STRCMP_NULL);
+    EXPECT_EQ(errno, EINVAL);
 }
 
 TEST(strcmp, null_str2)
 {
     EXPECT_EQ(ez_strcmp("test", nullptr), EZ_STRCMP_NULL);
+    EXPECT_EQ(errno, EINVAL);
 }
 
 TEST(strcmp, normal)

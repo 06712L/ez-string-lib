@@ -1,4 +1,5 @@
 #include "ez-string.h"
+#include <errno.h>
 #include <stddef.h>
 #include <stdlib.h>
 
@@ -6,6 +7,7 @@ char *ez_strndup(const char *str, size_t n)
 {
     if(str == NULL)
     {
+        errno = EINVAL;
         return NULL;
     }
     const size_t str_len = ez_strlen(str);

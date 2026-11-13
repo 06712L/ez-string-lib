@@ -1,9 +1,14 @@
+#include <errno.h>
 #include <stddef.h>
 #include "ez-string.h"
 
 char* ez_strcpy(char *target, const char *str)
 {
-    if(str == NULL || target == NULL) return NULL;
+    if(str == NULL || target == NULL)
+    {
+        errno = EINVAL;
+        return NULL;
+    }
 
     const char *str_ptr = str;
     char *target_ptr = target;

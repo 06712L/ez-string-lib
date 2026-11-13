@@ -6,6 +6,7 @@
 TEST(strlen, null_str)
 {
     EXPECT_EQ(ez_strlen(nullptr), 0);
+    EXPECT_EQ(errno, EINVAL);
 }
 
 TEST(strlen, normal)

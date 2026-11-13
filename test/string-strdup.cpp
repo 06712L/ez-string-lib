@@ -8,6 +8,7 @@
 TEST(strdup, null_str)
 {
     EXPECT_EQ(ez_strdup(nullptr), nullptr);
+    EXPECT_EQ(errno, EINVAL);
 }
 
 TEST(strdup, copy)

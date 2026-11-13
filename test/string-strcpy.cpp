@@ -8,12 +8,14 @@
 TEST(strcpy, null_target)
 {
     EXPECT_EQ(ez_strcpy(nullptr, "test"), nullptr);
+    EXPECT_EQ(errno, EINVAL);
 }
 
 TEST(strcpy, null_str)
 {
     std::unique_ptr<char[]> target = std::make_unique<char[]>(4);
     EXPECT_EQ(ez_strcpy(target.get(), nullptr), nullptr);
+    EXPECT_EQ(errno, EINVAL);
 }
 
 TEST(strcpy, copy)

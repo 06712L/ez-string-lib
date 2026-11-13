@@ -1,16 +1,19 @@
 #include <gtest/gtest.h>
 #include <cstring>
+#include <cerrno>
 #include "ez-string.h"
 #include "test-lib.hpp"
 
 TEST(strchr, null_s)
 {
     EXPECT_EQ(ez_strchr(nullptr, 'a'), nullptr);
+    EXPECT_EQ(errno, EINVAL);
 }
 
 TEST(strrchr, null_s)
 {
     EXPECT_EQ(ez_strrchr(nullptr, 'a'), nullptr);
+    EXPECT_EQ(errno, EINVAL);
 }
 
 static const auto test_strchr_strrchr=  std::to_array<char>(

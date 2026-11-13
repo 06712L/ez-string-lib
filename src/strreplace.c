@@ -1,3 +1,4 @@
+#include <errno.h>
 #include <stdint.h>
 #include <stddef.h>
 #include <stdbool.h>
@@ -35,10 +36,25 @@ static void free_all_replace_flag(replace_flag *node_head)
 char* ez_strreplace(char *str, const char *target_str, const char *replace_str, int replace_mode, bool in_place, bool auto_realloc)
 {
     // Check arg
-    if(str == NULL || target_str == NULL || replace_str == NULL) return NULL;
-    if(str[0] == '\0') return NULL;
-    if(target_str[0] == '\0') return NULL;
-    if(replace_mode < EZ_STRREPLACE_FIRST || replace_mode > EZ_STRREPLACE_ALL) return NULL;
+    if(str == NULL || target_str == NULL || replace_str == NULL)
+    {
+        errno = EINVAL;
+        return NULL;
+    }
+    if(str[0] == '\0')
+    {
+        return NULL;
+    }
+    if(target_str[0] == '\0')
+    {
+        errno = EINVAL;
+        return NULL;
+    }
+    if(replace_mode < EZ_STRREPLACE_FIRST || replace_mode > EZ_STRREPLACE_ALL)
+    {
+        errno = EINVAL;
+        return NULL;
+    }
 
     // Set size
     const size_t target_str_len = ez_strlen(target_str);

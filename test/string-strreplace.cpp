@@ -8,12 +8,14 @@
 TEST(streplace, all_null_str)
 {
     EXPECT_EQ(ez_strreplace(nullptr, nullptr, nullptr, 0, false, false), nullptr);
+    EXPECT_EQ(errno, EINVAL);
 }
 
 TEST(strreplace, nonexistent_mode)
 {
     std::string test_str = "ah";
     EXPECT_EQ(ez_strreplace(test_str.data(), "a", "h", 67, false, false), nullptr);
+    EXPECT_EQ(errno, EINVAL);
 }
 
 struct test_str
