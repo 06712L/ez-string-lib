@@ -37,7 +37,7 @@ static const auto test_strreplace = std::to_array<struct test_str>(
     {"m", "ow", EZ_STRREPLACE_FIRST ,   "oweow meow meow"},
 });
 
-TEST(strreplace, disable_in_plaec_enable_auto_realloc)
+TEST(strreplace, disable_in_place_enable_auto_realloc)
 {
     unsigned int index(0);
     for(const struct test_str &test : test_strreplace)
@@ -58,7 +58,7 @@ TEST(strreplace, disable_in_plaec_enable_auto_realloc)
     }
 }
 
-TEST(strreplace, enable_in_plaec_disable_auto_realloc)
+TEST(strreplace, enable_in_place_disable_auto_realloc)
 {
     unsigned int index(0);
     for(const struct test_str &test : test_strreplace)
