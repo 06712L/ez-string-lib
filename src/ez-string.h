@@ -34,7 +34,7 @@ enum
  * 
  * @param str string to measure
  * @return size_t string length
- * @retval 0 str is NULL
+ * @retval 0 str is NULL; also set errno to EINVAL
  */
 size_t ez_strlen(const char *str);
 
@@ -57,7 +57,7 @@ int ez_strcmp(const char *str1, const char *str2);
  * @param target destination buffer
  * @param str source string
  * @return char* the memory address of the target
- * @retval NULL either argument is NULL
+ * @retval NULL either argument is NULL; also set errno to EINVAL
  */
 char* ez_strcpy(char *target, const char *str);
 
@@ -68,7 +68,7 @@ char* ez_strcpy(char *target, const char *str);
  * @param str source string
  * @param n maximum number of characters to copy
  * @return char* the memory address of the target
- * @retval NULL target or str is NULL
+ * @retval NULL target or str is NULL; also set errno to EINVAL
  *
  * @note if n is 0, do nothing and return the memory address of the target
  */
