@@ -12,14 +12,10 @@ int ez_strcmp(const char *str1, const char *str2)
     }
     int diff = 0;
     const unsigned char *ptr1 = (const unsigned char*)str1, *ptr2 = (const unsigned char*)str2;
-    while(*ptr1 != '\0' && *ptr2 != '\0')
+    while(*ptr1 != '\0' && *ptr2 != '\0' && *ptr1 == *ptr2)
     {
-        if(*ptr1 != *ptr2)
-        {
-            diff = *ptr1 - *ptr2;
-            break;
-        }
         ptr1++, ptr2++;
     }
+    diff = *ptr1 - *ptr2;
     return diff;
 }
