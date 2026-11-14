@@ -31,8 +31,8 @@ TEST(strcmp, normal)
             const int ez_test(test_lib::sign(ez_strcmp(str1.c_str(), str2.c_str())));
             const int std_test(test_lib::sign(std::strcmp(str1.c_str(), str2.c_str())));
             EXPECT_EQ(ez_test, std_test)
-                << "str1: " << str1 << '\n'
-                << "str2: " << str2 << '\n';
+                << "str1: [" << str1 << "]\n"
+                << "str2: [" << str2 << "]\n";
         }
     }
 }

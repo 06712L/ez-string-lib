@@ -42,8 +42,8 @@ TEST(strchr, find)
             const char *ez_test(ez_strchr(s.c_str(), c));
             const char *std_test(std::strchr(s.c_str(), c));
             EXPECT_EQ(ez_test, std_test)
-                << "s: " << s << '\n'
-                << "c: " << c << '\n';
+                << "s: [" << s << "]\n"
+                << "c: [" << c << "]\n";
         }
     }
 }
@@ -57,8 +57,8 @@ TEST(strrchr, find)
             const char *ez_test(ez_strrchr(s.c_str(), c));
             const char *std_test(std::strrchr(s.c_str(), c));
             EXPECT_EQ(ez_test, std_test)
-                << "s: " << s << '\n'
-                << "c: " << c << '\n';
+                << "s: [" << s << "]\n"
+                << "c: [" << c << "]\n";
         }
     }
 }
