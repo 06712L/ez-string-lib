@@ -76,6 +76,7 @@ char* ez_strreplace(char *str, const char *target_str, const char *replace_str, 
                 node_tail = add_replace_flag(ptr, node_tail);
                 if(node_tail == NULL)
                 {
+                    errno = ENOMEM;
                     free_all_replace_flag(node_head);
                     return NULL;
                 }
@@ -93,6 +94,7 @@ char* ez_strreplace(char *str, const char *target_str, const char *replace_str, 
     char *tmp_str = malloc(after_replace_size);
     if(tmp_str == NULL)
     {
+        errno = ENOMEM;
         free_all_replace_flag(node_head);
         return NULL;
     }
@@ -159,6 +161,7 @@ char* ez_strreplace(char *str, const char *target_str, const char *replace_str, 
             char *tmp_ptr = realloc(str, after_replace_size);
             if(tmp_ptr == NULL)
             {
+                errno = ENOMEM;
                 free(tmp_str);
                 return NULL;
             }
