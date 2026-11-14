@@ -3,14 +3,15 @@
 #include <cerrno>
 #include "ez-string.h"
 #include "test-lib.hpp"
+#include "errno-test.hpp"
 
-TEST(strchr, null_s)
+TEST_F(ERRNO_TEST, strchr_null_s)
 {
     EXPECT_EQ(ez_strchr(nullptr, 'a'), nullptr);
     EXPECT_EQ(errno, EINVAL);
 }
 
-TEST(strrchr, null_s)
+TEST_F(ERRNO_TEST, strrchr_null_s)
 {
     EXPECT_EQ(ez_strrchr(nullptr, 'a'), nullptr);
     EXPECT_EQ(errno, EINVAL);

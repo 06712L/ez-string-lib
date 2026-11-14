@@ -2,22 +2,23 @@
 #include <gtest/gtest.h>
 #include <cstring>
 #include <string>
+#include "errno-test.hpp"
 #include "ez-string.h"
 #include "test-lib.hpp"
 
-TEST(strstr, all_null)
+TEST_F(ERRNO_TEST, strstr_all_null)
 {
     EXPECT_EQ(ez_strstr(nullptr, nullptr), nullptr);
     EXPECT_EQ(errno, EINVAL);
 }
 
-TEST(strstr, null_haystack)
+TEST_F(ERRNO_TEST, strstr_null_haystack)
 {
     EXPECT_EQ(ez_strstr(nullptr, "test"), nullptr);
     EXPECT_EQ(errno, EINVAL);
 }
 
-TEST(ststr, null_needle)
+TEST_F(ERRNO_TEST, strstr_null_needle)
 {
     const std::string test = "test";
     EXPECT_EQ(ez_strstr(test.c_str(), nullptr), nullptr);

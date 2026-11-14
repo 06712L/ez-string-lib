@@ -1,16 +1,17 @@
 #include <gtest/gtest.h>
 #include <cstring>
 #include <memory>
+#include "errno-test.hpp"
 #include "ez-string.h"
 #include "test-lib.hpp"
 
-TEST(strncpy, null_target)
+TEST_F(ERRNO_TEST, strncpy_null_target)
 {
     EXPECT_EQ(ez_strncpy(nullptr, "test", 4), nullptr);
     EXPECT_EQ(errno, EINVAL);
 }
 
-TEST(strncpy, null_str)
+TEST_F(ERRNO_TEST, strncpy_null_str)
 {
     char target[3] = {0};
     EXPECT_EQ(ez_strncpy(target, nullptr, 2), nullptr);

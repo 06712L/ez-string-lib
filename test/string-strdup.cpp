@@ -4,8 +4,9 @@
 #include <memory>
 #include "ez-string.h"
 #include "test-lib.hpp"
+#include "errno-test.hpp"
 
-TEST(strdup, null_str)
+TEST_F(ERRNO_TEST, strdup_null_str)
 {
     EXPECT_EQ(ez_strdup(nullptr), nullptr);
     EXPECT_EQ(errno, EINVAL);

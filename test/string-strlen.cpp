@@ -1,9 +1,10 @@
 #include <gtest/gtest.h>
 #include <cstring>
+#include "errno-test.hpp"
 #include "ez-string.h"
 #include "test-lib.hpp"
 
-TEST(strlen, null_str)
+TEST_F(ERRNO_TEST, strlen_null_str)
 {
     EXPECT_EQ(ez_strlen(nullptr), 0);
     EXPECT_EQ(errno, EINVAL);
