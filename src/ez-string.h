@@ -2,9 +2,7 @@
 #define EZ_STRING_H
 
 #include <stddef.h>
-#include <stdint.h>
 #include <stdbool.h>
-#include <stdio.h>
 
 #ifdef __cplusplus
 extern "C" {
