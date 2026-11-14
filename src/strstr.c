@@ -15,12 +15,12 @@ static inline bool check_size(const char *str, size_t size)
 
 static inline char* strstr_2c(const unsigned char *uhaystack, const unsigned char *uneedle)
 {
-    const uint16_t needle = uneedle[0] << 8 | uneedle[1];
-    uint16_t haystack = uhaystack[0] << 8 | uhaystack[1];
-    uhaystack += 2;
+    const uint32_t needle = ((uint32_t)uneedle[0] << 16U) | (uint32_t)uneedle[1];
+    uint32_t haystack = ((uint32_t)uhaystack[0] << 16U) | (uint32_t)uhaystack[1];
+    uhaystack += 2; // check unfilled character
     for(uint8_t c = *uhaystack; c != '\0' && needle != haystack; c = *++uhaystack)
     {
-        haystack = haystack << 8 | c;
+        haystack = ((uint32_t)haystack << 16U) | c;
     }
     if(needle == haystack) return (char*)uhaystack - 2;
     return NULL;
@@ -28,12 +28,12 @@ static inline char* strstr_2c(const unsigned char *uhaystack, const unsigned cha
 
 static inline char* strstr_3c(const unsigned char *uhaystack, const unsigned char *uneedle)
 {
-    const uint32_t needle = uneedle[0] << 16 | uneedle[1] << 8 | uneedle[2];
-    uint32_t haystack = uhaystack[0] << 16 | uhaystack[1] << 8 | uhaystack[2];
-    uhaystack += 3;
+    const uint32_t needle = ((uint32_t)uneedle[0] << 16U) | ((uint32_t)uneedle[1] << 8U) | (uint32_t)uneedle[2];
+    uint32_t haystack = ((uint32_t)uhaystack[0] << 16U) | ((uint32_t)uhaystack[1] << 8U) | (uint32_t)uhaystack[2];
+    uhaystack += 3; // check unfilled character
     for(uint8_t c = *uhaystack; c != '\0' && needle != haystack; c = *++uhaystack)
     {
-        haystack = uhaystack[-2] << 16 | uhaystack[-1] << 8 | c;
+        haystack = ((uint32_t)uhaystack[-2] << 16U) | ((uint32_t)uhaystack[-1] << 8U) | c;
     }
     if(needle == haystack) return (char*)uhaystack - 3;
     return NULL;
