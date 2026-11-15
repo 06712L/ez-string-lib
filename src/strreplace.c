@@ -1,3 +1,4 @@
+#include <asm-generic/errno-base.h>
 #include <errno.h>
 #include <stdint.h>
 #include <stddef.h>
@@ -41,10 +42,6 @@ char* ez_strreplace(char *str, const char *target_str, const char *replace_str, 
         errno = EINVAL;
         return NULL;
     }
-    if(str[0] == '\0')
-    {
-        return NULL;
-    }
     if(target_str[0] == '\0')
     {
         errno = EINVAL;
@@ -53,6 +50,10 @@ char* ez_strreplace(char *str, const char *target_str, const char *replace_str, 
     if(replace_mode < EZ_STRREPLACE_FIRST || replace_mode > EZ_STRREPLACE_ALL)
     {
         errno = EINVAL;
+        return NULL;
+    }
+    if(str[0] == '\0')
+    {
         return NULL;
     }
 
