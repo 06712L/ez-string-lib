@@ -18,26 +18,21 @@
 extern "C" {
 #endif
 
-enum
-{
-    // ERROR CODE
-    EZ_STRCMP_NULL = 256,
-
-    // Replace mode
-    EZ_STRREPLACE_FIRST = 0,
-    EZ_STRREPLACE_LAST = 1,
-    EZ_STRREPLACE_ALL = 2,
-};
-
 /**
  * @brief get string length
  * 
  * @param str string to measure
  * @return size_t string length
  * @retval 0 str is NULL; also set errno to EINVAL
+ *
+ * @note an empty string also returns 0, without setting errno
  */
 size_t ez_strlen(const char *str);
 
+enum ez_strcmp_error_code
+{
+    EZ_STRCMP_NULL = 256,
+};
 /**
  * @brief compare two strings
  * 
@@ -133,6 +128,12 @@ char* ez_strdup(const char *str);
  */
 char* ez_strndup(const char *str, size_t n);
 
+enum ez_strreplace_replace_mode
+{
+    EZ_STRREPLACE_FIRST = 0,
+    EZ_STRREPLACE_LAST = 1,
+    EZ_STRREPLACE_ALL = 2,
+};
 /**
  * @brief replace a target string with a replacement string in a string
  * 
@@ -143,9 +144,14 @@ char* ez_strndup(const char *str, size_t n);
  * @param in_place whether to modify the original string or create a new string
  * @param auto_realloc whether to automatically reallocate memory
  * @return char* the resulting string
- * @retval NULL either string is NULL, invalid replacement mode or allocation failure; also set errno to EINVAL or ENOMEM
+ * @retval NULL the target string was not found; errno is unchanged
+ * @retval NULL an argument is invalid or memory allocation failed; also sets errno to EINVAL or ENOMEM
  *
  * @note if in_place is false, auto_realloc is ignored
+ * @note the function always allocates memory, so the caller must always handle allocation failure
+ * @note if in_place is true, the function copies the resulting string to the source string and then frees the resulting string
+ * @warning if in_place is false, the returned string must be freed by the caller
+ * @warning if in_place is true and auto_realloc is false, the caller must ensure that str has enough capacity
  *
  * @see EZ_STRREPLACE_FIRST
  * @see EZ_STRREPLACE_LAST
