@@ -10,10 +10,31 @@ set_project("ez-string-lib")
 set_version("0.0.1")
 set_license("MIT")
 
+local sanitizers = {
+    asan = "address",
+    ubsan = "undefined",
+    lsan = "leak",
+    msan = "memory"
+}
+
+for short_san, long_san in pairs(sanitizers) do 
+    option(short_san, function () 
+        set_default(false)
+        set_description("Enable "..long_san.." sanitizer")
+    end)
+end
+
 for _, kind in pairs({"static", "shared", "object"}) do
     target("ez-string-"..kind, function()
         set_kind(kind)
         set_basename("ez-string")
+
+        for short_san, long_san in pairs(sanitizers) do 
+            if has_config(short_san) then
+                set_policy("build.sanitizer."..long_san, true)
+            end
+        end
+
         if kind == "static" or kind == "shared" then
             set_default(true)
         else
@@ -25,19 +46,21 @@ end
 
 for _, file in ipairs(os.files("test/*.cpp")) do
     local name = path.basename(file)
-    if name ~= "test-lib" then
-        target(name, function()
-            set_kind("binary")
-            set_policy("build.sanitizer.address", true)
-            set_policy("build.sanitizer.leak", true)
-            set_policy("build.sanitizer.undefined", true)
-            set_default(false)
-            add_includedirs("src")
-            add_packages("gtest")
-            add_links("gtest_main")
-            add_files("test/"..name..".cpp")
-            add_deps("ez-string-object")
-            add_tests("test", {realtime_output = true})
-        end)
-    end
+    target(name, function()
+        set_kind("binary")
+
+        for short_san, long_san in pairs(sanitizers) do 
+            if has_config(short_san) then
+                set_policy("build.sanitizer."..long_san, true)
+            end
+        end
+
+        set_default(false)
+        add_includedirs("src")
+        add_packages("gtest")
+        add_links("gtest_main")
+        add_files("test/"..name..".cpp")
+        add_deps("ez-string-object")
+        add_tests("test", {realtime_output = true})
+    end)
 end
