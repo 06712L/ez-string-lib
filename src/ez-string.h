@@ -75,6 +75,7 @@ char* ez_strncpy(char *target, const char *str, const size_t n);
  * @param haystack string to search
  * @param needle the target string
  * @return char* the memory address of the substring in haystack
+ * @retval NULL not found the substring; errno is unchanged
  * @retval NULL either argument is NULL; also set errno to EINVAL
  *
  * @note if needle is an empty string, return the memory address of haystack
@@ -87,7 +88,8 @@ char* ez_strstr(const char *haystack, const char *needle);
  * @param s string to search
  * @param c the target character
  * @return char* the memory address of the first occurrence of the character in the string
- * @retval NULL character not found or s is NULL; set errno to EINVAL if s is NULL
+ * @retval NULL character not found; errno is unchanged
+ * @retval NULL s is NULL; set errno to EINVAL
  *
  * @note if c is the null character, return the memory address of the end of the string
  */
@@ -99,7 +101,8 @@ char* ez_strchr(const char *s, const char c);
  * @param s string to search
  * @param c the target character
  * @return char* the memory address of the last occurrence of the character in the string
- * @retval NULL character not found or s is NULL; set errno to EINVAL if s is NULL
+ * @retval NULL character not found; errno is unchanged
+ * @retval NULL s is NULL; set errno to EINVAL
  *
  * @note if c is the null character, return the memory address of the end of the string
  */
@@ -110,7 +113,8 @@ char* ez_strrchr(const char *s, const char c);
  * 
  * @param str source string
  * @return char* the memory address of the allocated string
- * @retval NULL str is NULL or allocation failure; also set errno to EINVAL or ENOMEM
+ * @retval NULL str is NULL; also set errno to EINVAL
+ * @retval NULL allocation failure; also set errno to ENOMEM
  *
  * @see ez_strcpy()
  */
@@ -122,7 +126,8 @@ char* ez_strdup(const char *str);
  * @param str source string
  * @param n maximum number of characters to copy
  * @return char* the memory address of the allocated string
- * @retval NULL str is NULL or allocation failure; also set errno to EINVAL or ENOMEM
+ * @retval NULL str is NULL; also set errno to EINVAL
+ * @retval NULL allocation failure; also set errno to ENOMEM
  *
  * @see ez_strncpy()
  */
@@ -145,13 +150,16 @@ enum ez_strreplace_replace_mode
  * @param auto_realloc whether to automatically reallocate memory
  * @return char* the resulting string
  * @retval NULL the target string was not found; errno is unchanged
- * @retval NULL an argument is invalid or memory allocation failed; also sets errno to EINVAL or ENOMEM
+ * @retval NULL an argument is invalid; also set errno to EINVAL
+ * @retval NULL memory allocation failed; also set errno to ENOMEM
  *
  * @note if in_place is false, auto_realloc is ignored
  * @note the function always allocates memory, so the caller must always handle allocation failure
  * @note if in_place is true, the function copies the resulting string to the source string and then frees the resulting string
+ * @note if str is an empty string and all other arguments are valid, the results is considered not found rather than invalid argument
  * @warning if in_place is false, the returned string must be freed by the caller
  * @warning if in_place is true and auto_realloc is false, the caller must ensure that str has enough capacity
+ * @warning if in_place is true and auto_realloc is true, the function does not update the caller's pointer; the caller must use the returned pointer
  *
  * @see EZ_STRREPLACE_FIRST
  * @see EZ_STRREPLACE_LAST
