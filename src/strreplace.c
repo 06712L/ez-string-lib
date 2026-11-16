@@ -34,7 +34,7 @@ static void free_all_replace_flag(replace_flag *node_head)
     }
 }
 
-char* ez_strreplace(char *str, const char *target_str, const char *replace_str, int replace_mode, bool in_place, bool auto_realloc)
+char* ez_strreplace(char *str, const char *target_str, const char *replace_str, enum ez_strreplace_replace_mode replace_mode, bool in_place, bool auto_realloc)
 {
     // Check arg
     if(str == NULL || target_str == NULL || replace_str == NULL)

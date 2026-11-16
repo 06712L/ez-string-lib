@@ -133,12 +133,12 @@ char* ez_strdup(const char *str);
  */
 char* ez_strndup(const char *str, size_t n);
 
-enum ez_strreplace_replace_mode
+typedef enum ez_strreplace_replace_mode
 {
     EZ_STRREPLACE_FIRST = 0,
     EZ_STRREPLACE_LAST = 1,
     EZ_STRREPLACE_ALL = 2,
-};
+}ez_strreplace_replace_mode;
 /**
  * @brief replace a target string with a replacement string in a string
  * 
@@ -165,7 +165,7 @@ enum ez_strreplace_replace_mode
  * @see EZ_STRREPLACE_LAST
  * @see EZ_STRREPLACE_ALL
  */
-char* ez_strreplace(char *str, const char *target_str, const char *replace_str, int replace_mode, bool in_place, bool auto_realloc);
+char* ez_strreplace(char *str, const char *target_str, const char *replace_str, enum ez_strreplace_replace_mode replace_mode, bool in_place, bool auto_realloc);
 
 #ifdef __cplusplus
 }

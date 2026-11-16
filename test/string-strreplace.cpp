@@ -9,14 +9,14 @@
 
 TEST_F(ERRNO_TEST, strreplace_all_null_str)
 {
-    EXPECT_EQ(ez_strreplace(nullptr, nullptr, nullptr, 0, false, false), nullptr);
+    EXPECT_EQ(ez_strreplace(nullptr, nullptr, nullptr, EZ_STRREPLACE_ALL, false, false), nullptr);
     EXPECT_EQ(errno, EINVAL);
 }
 
-TEST_F(ERRNO_TEST, strreplace_nonexistent_mode)
+TEST_F(ERRNO_TEST, strreplace_invalid_mode)
 {
     std::string test_str = "ah";
-    EXPECT_EQ(ez_strreplace(test_str.data(), "a", "h", 67, false, false), nullptr);
+    EXPECT_EQ(ez_strreplace(test_str.data(), "a", "h", static_cast<ez_strreplace_replace_mode>(67), false, false), nullptr);
     EXPECT_EQ(errno, EINVAL);
 }
 
@@ -24,7 +24,7 @@ struct test_str
 {
     const std::string target_str;
     const std::string replace_str;
-    const int replace_mode;
+    const enum ez_strreplace_replace_mode replace_mode;
     const std::string answer;
 };
 
