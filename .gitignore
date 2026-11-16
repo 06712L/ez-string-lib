@@ -10,3 +10,6 @@ build/
 
 # Compilation database for lsp
 compile_commands.json
+
+# Doxygen
+html/
