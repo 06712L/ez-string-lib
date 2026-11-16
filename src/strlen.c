@@ -1,3 +1,4 @@
+#include <stdint.h>
 #include <errno.h>
 #include <stddef.h>
 #include "ez-string.h"
@@ -7,7 +8,7 @@ size_t ez_strlen(const char *str)
     if(str == NULL)
     {
         errno = EINVAL;
-        return 0;
+        return SIZE_MAX - 1;
     }
     const char *str_ptr = str;
     size_t len = 0;

@@ -23,9 +23,7 @@ extern "C" {
  * 
  * @param str string to measure
  * @return size_t string length
- * @retval 0 str is NULL; also set errno to EINVAL
- *
- * @note an empty string also returns 0, without setting errno
+ * @retval (SIZE_MAX - 1) str is NULL; also set errno to EINVAL
  */
 size_t ez_strlen(const char *str);
 
