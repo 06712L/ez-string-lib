@@ -3,7 +3,7 @@
  * @author bananah2odev@gmail.com
  * @brief ez-string-lib header
  * @version 0.0.1
- * @date 2026-11-15
+ * @date 2026-11-16
  * 
  * @copyright Copyright (c) 2026 Xie
  */
