@@ -13,3 +13,9 @@ compile_commands.json
 
 # Doxygen
 html/
+
+# Valgrind
+callgrind.out.*
+cachegrind.out.*
+massif.out.*
+dhat.out.*
