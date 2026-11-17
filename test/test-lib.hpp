@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT
 #ifndef TEST_LIB_HPP
 #define TEST_LIB_HPP
 

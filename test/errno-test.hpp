@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT
 #ifndef INIT_ERRNO_H
 #define INIT_ERRNO_H
 
