@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT
 #include <asm-generic/errno-base.h>
 #include <errno.h>
 #include <stdint.h>

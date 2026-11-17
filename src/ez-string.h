@@ -6,6 +6,8 @@
  * @date 2026-11-16
  * 
  * @copyright Copyright (c) 2026 Xie
+ *
+ * SPDX-License-Identifier: MIT
  */
 
 #ifndef EZ_STRING_H
