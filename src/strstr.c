@@ -40,6 +40,57 @@ static inline char* strstr_3c(const unsigned char *uhaystack, const unsigned cha
     return NULL;
 }
 
+static inline void maximal_suffix(const unsigned char *uneedle, const size_t needle_len, const unsigned char **split, size_t *p)
+{
+    struct ms
+    {
+        size_t ms;
+        size_t p;
+    };
+    struct ms results[2]; // [0] = lo, [1] = rlo
+    for(uint8_t i = 0; i < 2; i++)
+    {
+        ptrdiff_t tmp_ms = -1, j = 0;
+        ptrdiff_t tmp_p = 1;
+        for(ptrdiff_t k = 1; j + k < needle_len;)
+        {
+            const unsigned char c1 = uneedle[j + k], c2 = uneedle[tmp_ms + k];
+            if((i == 0) ? (c1 < c2):(c1 > c2))
+            {
+                j += k;
+                k = 1;
+                tmp_p = j - tmp_ms;
+            }
+            else if (c1 == c2)
+            {
+                if(k != tmp_p)
+                {
+                    k++;
+                }
+                else
+                {
+                    j += tmp_p;
+                    k = 1;
+                }
+            }
+            else
+            {
+                tmp_ms = j;
+                j = tmp_ms + 1;
+                k = 1;
+                tmp_p = 1;
+            }
+        }
+        results[i].ms = tmp_ms;
+        results[i].p = tmp_p;
+    }
+
+    // Return results
+    const bool use_rlo = results[0].ms <= results[1].ms;
+    *split = uneedle + results[use_rlo].ms;
+    *p = results[use_rlo].p;
+}
+
 char* ez_strstr(const char *haystack, const char *needle)
 {
     if(haystack == NULL || needle == NULL)
@@ -66,21 +117,29 @@ char* ez_strstr(const char *haystack, const char *needle)
         return strstr_3c(uhaystack, uneedle);
     }
 
-    // Start searching
-    const unsigned char *flag = NULL;
+    // Get maximal suffix
     const size_t needle_len = ez_strlen(needle);
-    if(needle_len > ez_strlen((char*)uhaystack)) return NULL;
-    for(size_t i = 0; flag == NULL && uhaystack[i] != '\0'; uhaystack++)
+    const unsigned char *split;
+    size_t p;
+    maximal_suffix(uneedle, needle_len, &split, &p);
+    const size_t right_needle_len = needle_len - (split - uneedle);
+    const size_t left_needle_len = needle_len - right_needle_len;
+
+    // Decide move mode
+    bool move_mode;
+    if(left_needle_len <= right_needle_len)
     {
-        flag = uhaystack;
-        for(i = 0; i < needle_len; i++)
-        {
-            if(uhaystack[i] != uneedle[i])
-            {
-                flag = NULL;
-                break;
-            }
-        }
+        // TODO: Done this
     }
-    return (char*)flag;
+    else
+    {
+        move_mode = false;
+    }
+
+    // Start search
+    const unsigned char *ptr = uneedle;
+    while(1)
+    {
+        // TODO: Make ez_memcmp()
+    }
 }
