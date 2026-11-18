@@ -3,7 +3,7 @@
  * @author bananah2odev@gmail.com
  * @brief ez-string-lib header
  * @version 0.0.1
- * @date 2026-11-16
+ * @date 2026-11-18
  * 
  * @copyright Copyright (c) 2026 Xie
  *
@@ -166,6 +166,16 @@ typedef enum ez_strreplace_replace_mode
  * @see EZ_STRREPLACE_ALL
  */
 char* ez_strreplace(char *str, const char *target_str, const char *replace_str, enum ez_strreplace_replace_mode replace_mode, bool in_place, bool auto_realloc);
+
+/**
+ * @brief convert an uppercase ASCII character to lowercase
+ * 
+ * @param c source character
+ * @return char converted character
+ *
+ * @note if c is not an ASCII uppercase, return source character
+ */
+char ez_tolower(const char c);
 
 #ifdef __cplusplus
 }
