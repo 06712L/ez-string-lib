@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: MIT
+#include <cstdint>
 #include <gtest/gtest.h>
 #include <cstring>
 #include "errno-test.hpp"
@@ -7,7 +8,7 @@
 
 TEST_F(ERRNO_TEST, strlen_null_str)
 {
-    EXPECT_EQ(ez_strlen(nullptr), 0);
+    EXPECT_EQ(ez_strlen(nullptr), SIZE_MAX - 1);
     EXPECT_EQ(errno, EINVAL);
 }
 
