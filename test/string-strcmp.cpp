@@ -13,13 +13,13 @@ TEST_F(ERRNO_TEST, strcmp_all_null)
     EXPECT_EQ(errno, EINVAL);
 }
 
-TEST_F(ERRNO_TEST, strcmp_null_str1)
+TEST_F(ERRNO_TEST, strcmp_str1_null)
 {
     EXPECT_EQ(ez_strcmp(nullptr, "test"), EZ_STRCMP_NULL);
     EXPECT_EQ(errno, EINVAL);
 }
 
-TEST_F(ERRNO_TEST, strcmp_null_str2)
+TEST_F(ERRNO_TEST, strcmp_str2_null)
 {
     EXPECT_EQ(ez_strcmp("test", nullptr), EZ_STRCMP_NULL);
     EXPECT_EQ(errno, EINVAL);

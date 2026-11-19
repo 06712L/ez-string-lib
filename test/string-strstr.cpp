@@ -13,20 +13,20 @@ TEST_F(ERRNO_TEST, strstr_all_null)
     EXPECT_EQ(errno, EINVAL);
 }
 
-TEST_F(ERRNO_TEST, strstr_null_haystack)
+TEST_F(ERRNO_TEST, strstr_haystack_null)
 {
     EXPECT_EQ(ez_strstr(nullptr, "test"), nullptr);
     EXPECT_EQ(errno, EINVAL);
 }
 
-TEST_F(ERRNO_TEST, strstr_null_needle)
+TEST_F(ERRNO_TEST, strstr_needle_null)
 {
     const std::string test = "test";
     EXPECT_EQ(ez_strstr(test.c_str(), nullptr), nullptr);
     EXPECT_EQ(errno, EINVAL);
 }
 
-TEST(strstr, empty_string_needle)
+TEST(strstr, needle_empty_string)
 {
     const std::string test = "test";
     EXPECT_EQ(ez_strstr(test.c_str(), ""), test.c_str());

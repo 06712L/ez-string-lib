@@ -6,7 +6,7 @@
 #include "ez-string.h"
 #include "test-lib.hpp"
 
-TEST_F(ERRNO_TEST, strlen_null_str)
+TEST_F(ERRNO_TEST, strlen_str_null)
 {
     EXPECT_EQ(ez_strlen(nullptr), SIZE_MAX - 1);
     EXPECT_EQ(errno, EINVAL);

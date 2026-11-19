@@ -6,13 +6,13 @@
 #include "test-lib.hpp"
 #include "errno-test.hpp"
 
-TEST_F(ERRNO_TEST, strchr_null_s)
+TEST_F(ERRNO_TEST, strchr_s_null)
 {
     EXPECT_EQ(ez_strchr(nullptr, 'a'), nullptr);
     EXPECT_EQ(errno, EINVAL);
 }
 
-TEST_F(ERRNO_TEST, strrchr_null_s)
+TEST_F(ERRNO_TEST, strrchr_s_null)
 {
     EXPECT_EQ(ez_strrchr(nullptr, 'a'), nullptr);
     EXPECT_EQ(errno, EINVAL);

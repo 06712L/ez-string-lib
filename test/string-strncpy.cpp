@@ -6,13 +6,13 @@
 #include "ez-string.h"
 #include "test-lib.hpp"
 
-TEST_F(ERRNO_TEST, strncpy_null_target)
+TEST_F(ERRNO_TEST, strncpy_target_null)
 {
     EXPECT_EQ(ez_strncpy(nullptr, "test", 4), nullptr);
     EXPECT_EQ(errno, EINVAL);
 }
 
-TEST_F(ERRNO_TEST, strncpy_null_str)
+TEST_F(ERRNO_TEST, strncpy_str_null)
 {
     char target[3] = {0};
     EXPECT_EQ(ez_strncpy(target, nullptr, 2), nullptr);

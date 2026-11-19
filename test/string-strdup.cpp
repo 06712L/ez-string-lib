@@ -7,7 +7,7 @@
 #include "test-lib.hpp"
 #include "errno-test.hpp"
 
-TEST_F(ERRNO_TEST, strdup_null_str)
+TEST_F(ERRNO_TEST, strdup_str_null)
 {
     EXPECT_EQ(ez_strdup(nullptr), nullptr);
     EXPECT_EQ(errno, EINVAL);

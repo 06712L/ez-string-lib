@@ -7,7 +7,7 @@
 #include "ez-string.h"
 #include "test-lib.hpp"
 
-TEST_F(ERRNO_TEST, strndup_null_str)
+TEST_F(ERRNO_TEST, strndup_str_null)
 {
     EXPECT_EQ(ez_strndup(nullptr, 1), nullptr);
     EXPECT_EQ(errno, EINVAL);
