@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
-#ifndef INIT_ERRNO_H
-#define INIT_ERRNO_H
+#ifndef ERRNO_TEST_HPP
+#define ERRNO_TEST_HPP
 
 #include <gtest/gtest.h>
 #include <cerrno>
