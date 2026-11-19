@@ -40,6 +40,12 @@ namespace test_lib
     {
         return (num > 0) - (num < 0);
     }
+
+    template<typename T>
+    inline T min(T a, T b)
+    {
+        return (a < b) ? a:b;
+    }
 };
 
 #endif

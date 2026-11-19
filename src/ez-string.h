@@ -3,7 +3,7 @@
  * @author bananah2odev@gmail.com
  * @brief ez-string-lib header
  * @version 0.0.1
- * @date 2026-11-18
+ * @date 2026-11-19
  * 
  * @copyright Copyright (c) 2026 Xie
  *
@@ -42,6 +42,7 @@ enum ez_strcmp_error_code
  * @retval 0 the strings are equal
  * @retval 256 (EZ_STRCMP_NULL) either string is NULL; also set errno to EINVAL
  *
+ * @see ez_memcmp()
  * @see EZ_STRCMP_NULL
  */
 int ez_strcmp(const char *str1, const char *str2);
@@ -176,6 +177,28 @@ char* ez_strreplace(char *str, const char *target_str, const char *replace_str, 
  * @note if c is not an ASCII uppercase, return source character
  */
 char ez_tolower(const char c);
+
+enum ez_memcmp_error_code
+{
+    EZ_MEMCMP_NULL = 256,
+};
+/**
+ * @brief compare two memorys
+ * 
+ * @param mem1 first memory
+ * @param mem2 second memory
+ * @param n comparison amount
+ * @return int the difference between the memory
+ * @retval 0 the memorys are equal
+ * @retval 0 n is 0, whether or not either memory is NULL; errno is unchanged
+ * @retval 256 (EZ_MEMCMP_NULL) either memory is NULL; also set errno to EINVAL
+ *
+ * @note the function don't check null character, so ensure n is trustworthy
+ *
+ * @see ez_strcmp()
+ * @see EZ_MEMCMP_NULL
+ */
+int ez_memcmp(const void *mem1, const void *mem2, const size_t n);
 
 #ifdef __cplusplus
 }
