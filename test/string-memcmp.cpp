@@ -72,8 +72,8 @@ TEST(memcmp, uint16_array_unequal)
     std::vector<uint16_t> arr2(n);
     for(std::size_t i(0); i < n; i++)
     {
-        arr1.push_back(i);
-        arr2.push_back(i);
+        arr1[i] = i;
+        arr2[i] = i;
     }
     arr2[n - 1]--;
     EXPECT_EQ(test_lib::sign(ez_memcmp(arr1.data(), arr2.data(), size)), test_lib::sign(std::memcmp(arr1.data(), arr2.data(), size)));
