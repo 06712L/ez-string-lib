@@ -24,6 +24,9 @@ for short_san, long_san in pairs(sanitizers) do
     end)
 end
 
+add_cflags("-Wall", "-Wextra", "-Werror", "-Wshadow", "-Wconversion", "-pedantic")
+add_cxxflags("-Wall", "-Wextra", "-Werror", "-Wshadow", "-Wconversion", "-pedantic")
+
 for _, kind in pairs({"static", "shared", "object"}) do
     target("ez-string-"..kind, function()
         set_kind(kind)
