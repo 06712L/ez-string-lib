@@ -64,6 +64,7 @@ TEST(strstr, normal)
             const char *ez_test(ez_strstr(haystack.c_str(), needle.c_str()));
             const char *std_test(std::strstr(haystack.c_str(), needle.c_str()));
             EXPECT_EQ(ez_test, std_test)
+                << "haystack memory address: " << static_cast<const void*>(haystack.c_str()) << '\n'
                 << "haystack: [" << haystack << "]\n"
                 << "needle: [" << needle << "]\n";
         }

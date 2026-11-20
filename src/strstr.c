@@ -50,16 +50,16 @@ static inline void maximal_suffix(const unsigned char *uneedle, const size_t nee
     struct ms results[2]; // [0] = lo, [1] = rlo
     for(uint8_t i = 0; i < 2; i++)
     {
-        ptrdiff_t tmp_ms = -1, j = 0;
-        ptrdiff_t tmp_p = 1;
-        for(ptrdiff_t k = 1; j + k < needle_len;)
+        size_t tmp_ms = 0, j = 1;
+        size_t tmp_p = 0;
+        for(size_t k = 0; j + k < needle_len;)
         {
             const unsigned char c1 = uneedle[j + k], c2 = uneedle[tmp_ms + k];
             if((i == 0) ? (c1 < c2):(c1 > c2))
             {
-                j += k;
-                k = 1;
-                tmp_p = j - tmp_ms;
+                j += k + 1;
+                k = 0;
+                tmp_p = j - tmp_ms - 1;
             }
             else if (c1 == c2)
             {
@@ -69,20 +69,20 @@ static inline void maximal_suffix(const unsigned char *uneedle, const size_t nee
                 }
                 else
                 {
-                    j += tmp_p;
-                    k = 1;
+                    j += tmp_p + 1;
+                    k = 0;
                 }
             }
             else
             {
                 tmp_ms = j;
-                j = tmp_ms + 1;
-                k = 1;
-                tmp_p = 1;
+                j++;
+                k = 0;
+                tmp_p = 0;
             }
         }
         results[i].ms = tmp_ms;
-        results[i].p = tmp_p;
+        results[i].p = tmp_p + 1;
     }
 
     // Return results
@@ -126,20 +126,48 @@ char* ez_strstr(const char *haystack, const char *needle)
     const size_t left_needle_len = needle_len - right_needle_len;
 
     // Decide move mode
-    bool move_mode;
+    size_t move_dist = (left_needle_len > right_needle_len) ? left_needle_len:right_needle_len;
     if(left_needle_len <= right_needle_len)
     {
-        // TODO: Done this
-    }
-    else
-    {
-        move_mode = false;
+        if(ez_memcmp(uneedle, split, left_needle_len))
+        {
+            move_dist = (left_needle_len > right_needle_len);
+        }
     }
 
     // Start search
-    const unsigned char *ptr = uneedle;
+    const unsigned char *uh_ptr = uhaystack;
     while(1)
     {
-        // TODO: Make ez_memcmp()
+        size_t i = 0;
+        while(i < right_needle_len)
+        {
+            if(uh_ptr[i] == '\0')
+            {
+                return NULL;
+            }
+            if(split[i] != uh_ptr[i])
+            {
+                break;
+            }
+            i++;
+        }
+        if(i == right_needle_len)
+        {
+            const unsigned char *left_ptr = uh_ptr - left_needle_len;
+            if(ez_memcmp(split - left_needle_len, left_ptr, left_needle_len) == 0)
+            {
+                return (char*)left_ptr;
+            }
+            else
+            {
+                uh_ptr += move_dist;
+            }
+        }
+        else
+        {
+            uh_ptr += i + 1;
+            continue;
+        }
     }
 }
