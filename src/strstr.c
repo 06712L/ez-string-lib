@@ -98,7 +98,7 @@ char* ez_strstr(const char *haystack, const char *needle)
         errno = EINVAL;
         return NULL;
     }
-    if(needle[0] == '\0') return (char*)haystack;
+    if(needle[0] == '\0' || haystack == needle) return (char*)haystack;
     const unsigned char *uhaystack = (const unsigned char*)haystack, *uneedle = (const unsigned char*)needle;
 
     uhaystack = (const unsigned char*)ez_strchr((const char*)uhaystack, uneedle[0]);
