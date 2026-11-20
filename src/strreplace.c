@@ -85,7 +85,14 @@ char* ez_strreplace(char *str, const char *target_str, const char *replace_str, 
                 if(node_head == NULL) node_head = node_tail;
             if(change_size)
             {
-                after_replace_size += rt_diff;
+                if(rt_diff > 0)
+                {
+                    after_replace_size += (size_t)rt_diff;
+                }
+                else
+                {
+                    after_replace_size -= (size_t)-rt_diff;
+                }
                 if(replace_mode == EZ_STRREPLACE_LAST) change_size = false;
             }
             if(replace_mode == EZ_STRREPLACE_FIRST) break;

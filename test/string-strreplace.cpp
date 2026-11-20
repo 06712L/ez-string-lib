@@ -17,7 +17,7 @@ TEST_F(ERRNO_TEST, strreplace_all_null_str)
 TEST_F(ERRNO_TEST, strreplace_invalid_mode)
 {
     std::string test_str = "ah";
-    EXPECT_EQ(ez_strreplace(test_str.data(), "a", "h", static_cast<ez_strreplace_replace_mode>(67), false, false), nullptr);
+    EXPECT_EQ(ez_strreplace(test_str.data(), "a", "h", static_cast<ez_strreplace_replace_mode>(EZ_STRREPLACE_ALL + 1), false, false), nullptr);
     EXPECT_EQ(errno, EINVAL);
 }
 

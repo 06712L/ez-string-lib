@@ -70,7 +70,7 @@ TEST(memcmp, uint16_array_unequal)
     const std::size_t size(sizeof(uint16_t) * n);
     std::vector<uint16_t> arr1(n);
     std::vector<uint16_t> arr2(n);
-    for(std::size_t i(0); i < n; i++)
+    for(uint16_t i(0); i < n; i++)
     {
         arr1[i] = i;
         arr2[i] = i;

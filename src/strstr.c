@@ -101,7 +101,7 @@ char* ez_strstr(const char *haystack, const char *needle)
     if(needle[0] == '\0' || haystack == needle) return (char*)haystack;
     const unsigned char *uhaystack = (const unsigned char*)haystack, *uneedle = (const unsigned char*)needle;
 
-    uhaystack = (const unsigned char*)ez_strchr((const char*)uhaystack, uneedle[0]);
+    uhaystack = (const unsigned char*)ez_strchr((const char*)uhaystack, (char)uneedle[0]);
 
     // Handle short str
     if(uhaystack == NULL) return NULL;
@@ -122,7 +122,7 @@ char* ez_strstr(const char *haystack, const char *needle)
     const unsigned char *split;
     size_t p;
     maximal_suffix(uneedle, needle_len, &split, &p);
-    const size_t right_needle_len = needle_len - (split - uneedle);
+    const size_t right_needle_len = needle_len - (size_t)(split - uneedle);
     const size_t left_needle_len = needle_len - right_needle_len;
 
     // Decide move mode
