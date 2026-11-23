@@ -42,6 +42,7 @@ for _, kind in pairs({"static", "shared", "object"}) do
 			add_headerfiles("src/ez-string.h", {install=true})
             set_default(true)
         else
+			add_headerfiles("src/ez-string.h", {install=false})
             set_default(false)
         end
         add_files("src/*.c")
