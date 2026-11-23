@@ -200,7 +200,7 @@ char ez_toupper(const char c);
 
 /**
  * @brief check whether an ASCII character is lowercase
- * 
+ *
  * @param c source character
  * @return true is lowercase
  * @return false is uppercase or not letter
@@ -209,7 +209,7 @@ bool ez_islower(const char c);
 
 /**
  * @brief check whether an ASCII character is uppercase
- * 
+ *
  * @param c source character
  * @return true is uppercase
  * @return false is lowercase or not letter

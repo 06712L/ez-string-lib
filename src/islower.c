@@ -4,5 +4,5 @@
 
 bool ez_islower(const char c) {
 	const unsigned char uc = (const unsigned char)c;
-    return uc >= 'a' && uc <= 'z';
+	return uc >= 'a' && uc <= 'z';
 }
