@@ -39,6 +39,7 @@ for _, kind in pairs({"static", "shared", "object"}) do
         end
 
         if kind == "static" or kind == "shared" then
+			add_headerfiles("src/ez-string.h", {install=true})
             set_default(true)
         else
             set_default(false)
@@ -60,6 +61,7 @@ for _, file in ipairs(os.files("test/*.cpp")) do
 
         set_default(false)
         add_includedirs("src")
+		add_headerfiles("test/*.hpp", {install=false})
         add_packages("gtest")
         add_links("gtest_main")
         add_files("test/"..name..".cpp")
