@@ -207,6 +207,15 @@ char ez_toupper(const char c);
  */
 bool ez_islower(const char c);
 
+/**
+ * @brief check whether an ASCII character is uppercase
+ * 
+ * @param c source character
+ * @return true is uppercase
+ * @return false is lowercase or not letter
+ */
+bool ez_isupper(const char c);
+
 enum ez_memcmp_error_code {
 	EZ_MEMCMP_NULL = 256,
 };
