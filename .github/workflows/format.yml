@@ -17,6 +17,9 @@ jobs:
         with:
          xmake-version: '3.1.2'
 
+      - name: Install format-plugin
+        run: xmake addon --install format-plugin
+
       - name: Install clang-format
         run: sudo apt-get update && sudo apt-get install -y clang-format
 
