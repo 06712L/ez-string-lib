@@ -1,24 +1,22 @@
 // SPDX-License-Identifier: MIT
+#include "ez-string.h"
 #include <errno.h>
 #include <stddef.h>
-#include "ez-string.h"
 
-char* ez_strncpy(char *target, const char *str, size_t n)
-{
-    if(str == NULL || target == NULL)
-    {
-        errno = EINVAL;
-        return NULL;
-    }
-    if(n == 0) return target;
+char *ez_strncpy(char *target, const char *str, size_t n) {
+	if (str == NULL || target == NULL) {
+		errno = EINVAL;
+		return NULL;
+	}
+	if (n == 0)
+		return target;
 
-    const char *str_ptr = str;
-    char *target_ptr = target;
-    for(; n > 0 && *str_ptr != '\0'; n--)
-    {
-        *target_ptr = *str_ptr;
-        target_ptr++, str_ptr++;
-    }
-    *target_ptr = '\0';
-    return target;
+	const char *str_ptr = str;
+	char *target_ptr = target;
+	for (; n > 0 && *str_ptr != '\0'; n--) {
+		*target_ptr = *str_ptr;
+		target_ptr++, str_ptr++;
+	}
+	*target_ptr = '\0';
+	return target;
 }
