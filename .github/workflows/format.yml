@@ -1,0 +1,36 @@
+name: Format
+on: [ push ]
+permissions: 
+    contents: write
+
+jobs:
+  format:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Xmake repository
+        uses: xmake-io/github-action-setup-xmake@v1
+        with:
+         xmake-version: '3.1.2'
+
+      - name: Install clang-format
+        run: sudo apt-get update && sudo apt-get install -y clang-format
+
+      - name: Start Format
+        run: xmake format -a
+
+      - name: Commit changes
+        run: |
+         git config user.name "github-actions[bot]"
+         git config user.email "github-actions[bot]@users.noreply.github.com"
+
+         git add .
+
+         if ! git diff --staged --quiet; then
+            git commit -m "style: auto format [skip ci]"
+            git push
+         fi
