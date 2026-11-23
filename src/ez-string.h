@@ -188,6 +188,16 @@ char *ez_strreplace(char *str, const char *target_str, const char *replace_str,
  */
 char ez_tolower(const char c);
 
+/**
+ * @brief convert a lowercase ASCII character to uppercase
+ *
+ * @param c source character
+ * @return char converted character
+ *
+ * @note if c is not an ASCII lowercase, return source character
+ */
+char ez_toupper(const char c);
+
 enum ez_memcmp_error_code {
 	EZ_MEMCMP_NULL = 256,
 };
