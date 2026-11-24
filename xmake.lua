@@ -1,7 +1,7 @@
 add_rules("mode.release", "mode.debug")
 set_languages("c99", "cxx20")
 set_xmakever("2.9.9")
-add_requires("gtest")
+add_requires("gtest", {optional = true})
 
 includes("@builtin/xpack")
 
