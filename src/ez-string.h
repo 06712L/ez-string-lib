@@ -17,6 +17,7 @@
 #include <stddef.h>
 
 #ifdef __cplusplus
+namespace ez_string {
 extern "C" {
 #endif
 
@@ -238,6 +239,7 @@ enum ez_memcmp_error_code {
 int ez_memcmp(const void *mem1, const void *mem2, const size_t n);
 
 #ifdef __cplusplus
+}
 }
 #endif
 
