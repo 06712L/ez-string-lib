@@ -252,6 +252,9 @@ int ez_memcmp(const void *mem1, const void *mem2, const size_t n);
  * @param c fill character
  * @param n filling amount
  * @return void* a pointer to s
+ * @retval NULL s is NULL; also set errno to EINVAL
+ *
+ * @note if n is 0, return a pointer to s and do nothing
  */
 void *ez_memset(void *s, const char c, const size_t n);
 
