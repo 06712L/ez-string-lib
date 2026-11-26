@@ -13,7 +13,8 @@ TEST_F(ERRNO_TEST, strndup_str_null) {
 }
 
 TEST(strndup, zero_n) {
-	std::unique_ptr<char[], decltype(&free)> test(ez_string::ez_strndup("test", 0), &free);
+	std::unique_ptr<char[], decltype(&free)> test(
+		ez_string::ez_strndup("test", 0), &free);
 	EXPECT_STREQ(test.get(), "");
 }
 

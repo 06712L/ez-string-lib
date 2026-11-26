@@ -56,7 +56,7 @@ int ez_strcmp(const char *str1, const char *str2);
  * @param str source string
  * @return char* a pointer to the target
  * @retval NULL either argument is NULL; also set errno to EINVAL
- * 
+ *
  * @note Always appends a null terminator to the target string
  */
 char *ez_strcpy(char *target, const char *str);
@@ -247,7 +247,7 @@ int ez_memcmp(const void *mem1, const void *mem2, const size_t n);
 
 /**
  * @brief fill memory with a character
- * 
+ *
  * @param s target memory
  * @param c fill character
  * @param n filling amount

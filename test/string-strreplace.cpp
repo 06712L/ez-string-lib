@@ -9,18 +9,20 @@
 #include <string>
 
 TEST_F(ERRNO_TEST, strreplace_all_null_str) {
-	EXPECT_EQ(ez_string::ez_strreplace(nullptr, nullptr, nullptr, ez_string::EZ_STRREPLACE_ALL, false,
-							false),
+	EXPECT_EQ(ez_string::ez_strreplace(nullptr, nullptr, nullptr,
+									   ez_string::EZ_STRREPLACE_ALL, false,
+									   false),
 			  nullptr);
 	EXPECT_EQ(errno, EINVAL);
 }
 
 TEST_F(ERRNO_TEST, strreplace_invalid_mode) {
 	std::string test_str = "ah";
-	EXPECT_EQ(ez_string::ez_strreplace(test_str.data(), "a", "h",
-							static_cast<ez_string::ez_strreplace_replace_mode>(
-								ez_string::EZ_STRREPLACE_ALL + 1),
-							false, false),
+	EXPECT_EQ(ez_string::ez_strreplace(
+				  test_str.data(), "a", "h",
+				  static_cast<ez_string::ez_strreplace_replace_mode>(
+					  ez_string::EZ_STRREPLACE_ALL + 1),
+				  false, false),
 			  nullptr);
 	EXPECT_EQ(errno, EINVAL);
 }
@@ -49,8 +51,8 @@ TEST(strreplace, disable_in_place_enable_auto_realloc) {
 		std::string tmp_str(test_lib::test_string[index]);
 		std::unique_ptr<char[], decltype(&free)> ez_test(
 			ez_string::ez_strreplace(tmp_str.data(), test.target_str.c_str(),
-						  test.replace_str.c_str(), test.replace_mode, false,
-						  true),
+									 test.replace_str.c_str(),
+									 test.replace_mode, false, true),
 			&free);
 		if (ez_test == nullptr && errno == ENOMEM) {
 			FAIL() << "Memory alloc fail\n";
@@ -71,9 +73,10 @@ TEST(strreplace, enable_in_place_disable_auto_realloc) {
 		std::string ez_test;
 		{
 			std::string tmp_str(test_lib::test_string[index]);
-			if (ez_string::ez_strreplace(tmp_str.data(), test.target_str.c_str(),
-							  test.replace_str.c_str(), test.replace_mode, true,
-							  false) == nullptr &&
+			if (ez_string::ez_strreplace(
+					tmp_str.data(), test.target_str.c_str(),
+					test.replace_str.c_str(), test.replace_mode, true,
+					false) == nullptr &&
 				errno == ENOMEM) {
 				FAIL() << "Memory alloc fail\n";
 			}
