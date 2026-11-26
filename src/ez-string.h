@@ -3,7 +3,7 @@
  * @author bananah2odev@gmail.com
  * @brief ez-string-lib header
  * @version 0.0.1
- * @date 2026-11-26
+ * @date 2026-11-27
  *
  * @copyright Copyright (c) 2026 Xie
  *
@@ -169,6 +169,7 @@ typedef enum ez_strreplace_replace_mode {
  * source string and then frees the resulting string
  * @note if str is an empty string and all other arguments are valid, the
  * results is considered not found rather than invalid argument
+ * @note if replace_str is an empty string, the function treat it as a deletion operation
  * @warning if in_place is false, the returned string must be freed by the
  * caller
  * @warning if in_place is true and auto_realloc is false, the caller must
