@@ -245,6 +245,16 @@ enum ez_memcmp_error_code {
  */
 int ez_memcmp(const void *mem1, const void *mem2, const size_t n);
 
+/**
+ * @brief fill memory with a character
+ * 
+ * @param s target memory
+ * @param c fill character
+ * @param n filling amount
+ * @return void* a pointer to s
+ */
+void *ez_memset(void *s, const char c, const size_t n);
+
 #ifdef __cplusplus
 }
 }
