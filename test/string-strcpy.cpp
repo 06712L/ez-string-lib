@@ -9,13 +9,13 @@
 #include <stdexcept>
 
 TEST_F(ERRNO_TEST, strcpy_target_null) {
-	EXPECT_EQ(ez_strcpy(nullptr, "test"), nullptr);
+	EXPECT_EQ(ez_string::ez_strcpy(nullptr, "test"), nullptr);
 	EXPECT_EQ(errno, EINVAL);
 }
 
 TEST_F(ERRNO_TEST, strcpy_str_null) {
 	char target[2]{0};
-	EXPECT_EQ(ez_strcpy(target, nullptr), nullptr);
+	EXPECT_EQ(ez_string::ez_strcpy(target, nullptr), nullptr);
 	EXPECT_EQ(errno, EINVAL);
 }
 
@@ -31,7 +31,7 @@ TEST(strcpy, copy) {
 			FAIL() << "Memory alloc fail\n";
 		}
 
-		EXPECT_STREQ(ez_strcpy(ez_test.get(), str.c_str()),
+		EXPECT_STREQ(ez_string::ez_strcpy(ez_test.get(), str.c_str()),
 					 std::strcpy(std_test.get(), str.c_str()));
 	}
 }

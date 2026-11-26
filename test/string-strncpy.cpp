@@ -7,19 +7,19 @@
 #include <memory>
 
 TEST_F(ERRNO_TEST, strncpy_target_null) {
-	EXPECT_EQ(ez_strncpy(nullptr, "test", 4), nullptr);
+	EXPECT_EQ(ez_string::ez_strncpy(nullptr, "test", 4), nullptr);
 	EXPECT_EQ(errno, EINVAL);
 }
 
 TEST_F(ERRNO_TEST, strncpy_str_null) {
 	char target[3] = {0};
-	EXPECT_EQ(ez_strncpy(target, nullptr, 2), nullptr);
+	EXPECT_EQ(ez_string::ez_strncpy(target, nullptr, 2), nullptr);
 	EXPECT_EQ(errno, EINVAL);
 }
 
 TEST(strncpy, zero_n) {
 	char target[3] = {0};
-	EXPECT_EQ(ez_strncpy(target, "zn", 0), target);
+	EXPECT_EQ(ez_string::ez_strncpy(target, "zn", 0), target);
 }
 
 TEST(strncpy, copy_first_to_len_m1) {
@@ -37,7 +37,7 @@ TEST(strncpy, copy_first_to_len_m1) {
 			FAIL() << "Memory alloc fail\n";
 		}
 
-		EXPECT_STREQ(ez_strncpy(ez_test.get(), str.c_str(), n),
+		EXPECT_STREQ(ez_string::ez_strncpy(ez_test.get(), str.c_str(), n),
 					 std::strncpy(std_test.get(), str.c_str(), n));
 	}
 }
@@ -61,7 +61,7 @@ TEST(strncpy, copy_first_to_second) {
 			FAIL() << "Memory alloc fail\n";
 		}
 
-		EXPECT_STREQ(ez_strncpy(ez_test.get(), str.c_str(), N),
+		EXPECT_STREQ(ez_string::ez_strncpy(ez_test.get(), str.c_str(), N),
 					 std::strncpy(std_test.get(), str.c_str(), N));
 	}
 }

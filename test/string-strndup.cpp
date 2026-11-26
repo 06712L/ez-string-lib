@@ -8,12 +8,12 @@
 #include <string.h>
 
 TEST_F(ERRNO_TEST, strndup_str_null) {
-	EXPECT_EQ(ez_strndup(nullptr, 1), nullptr);
+	EXPECT_EQ(ez_string::ez_strndup(nullptr, 1), nullptr);
 	EXPECT_EQ(errno, EINVAL);
 }
 
 TEST(strndup, zero_n) {
-	std::unique_ptr<char[], decltype(&free)> test(ez_strndup("test", 0), &free);
+	std::unique_ptr<char[], decltype(&free)> test(ez_string::ez_strndup("test", 0), &free);
 	EXPECT_STREQ(test.get(), "");
 }
 
@@ -24,7 +24,7 @@ TEST(strndup, copy_first_to_len_m1) {
 		}
 		const std::size_t n = str.size() - 1;
 		std::unique_ptr<char[], decltype(&free)> ez_test(
-			ez_strndup(str.c_str(), n), &free);
+			ez_string::ez_strndup(str.c_str(), n), &free);
 		std::unique_ptr<char[], decltype(&free)> std_test(
 			strndup(str.c_str(), n), &free);
 		if (ez_test == nullptr || std_test == nullptr) {
@@ -45,7 +45,7 @@ TEST(strndup, copy_first_to_second) {
 			continue;
 		}
 		std::unique_ptr<char[], decltype(&free)> ez_test(
-			ez_strndup(str.c_str(), N), &free);
+			ez_string::ez_strndup(str.c_str(), N), &free);
 		std::unique_ptr<char[], decltype(&free)> std_test(
 			strndup(str.c_str(), N), &free);
 		if (ez_test == nullptr || std_test == nullptr) {

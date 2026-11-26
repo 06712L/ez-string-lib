@@ -9,7 +9,7 @@
 #include <string>
 
 TEST_F(ERRNO_TEST, strreplace_all_null_str) {
-	EXPECT_EQ(ez_strreplace(nullptr, nullptr, nullptr, EZ_STRREPLACE_ALL, false,
+	EXPECT_EQ(ez_string::ez_strreplace(nullptr, nullptr, nullptr, ez_string::EZ_STRREPLACE_ALL, false,
 							false),
 			  nullptr);
 	EXPECT_EQ(errno, EINVAL);
@@ -17,9 +17,9 @@ TEST_F(ERRNO_TEST, strreplace_all_null_str) {
 
 TEST_F(ERRNO_TEST, strreplace_invalid_mode) {
 	std::string test_str = "ah";
-	EXPECT_EQ(ez_strreplace(test_str.data(), "a", "h",
-							static_cast<ez_strreplace_replace_mode>(
-								EZ_STRREPLACE_ALL + 1),
+	EXPECT_EQ(ez_string::ez_strreplace(test_str.data(), "a", "h",
+							static_cast<ez_string::ez_strreplace_replace_mode>(
+								ez_string::EZ_STRREPLACE_ALL + 1),
 							false, false),
 			  nullptr);
 	EXPECT_EQ(errno, EINVAL);
@@ -28,18 +28,18 @@ TEST_F(ERRNO_TEST, strreplace_invalid_mode) {
 struct test_str {
 	const std::string target_str;
 	const std::string replace_str;
-	const enum ez_strreplace_replace_mode replace_mode;
+	const enum ez_string::ez_strreplace_replace_mode replace_mode;
 	const std::string answer;
 };
 
 static const auto test_strreplace = std::to_array<struct test_str>({
-	{"ab", "b", EZ_STRREPLACE_ALL, "ab"},
-	{"c", "linux", EZ_STRREPLACE_ALL, "abablinux"},
-	{"a", "bc", EZ_STRREPLACE_FIRST, "bcaaaaaaaaaaabc"},
-	{"哎", "喲", EZ_STRREPLACE_LAST, "哎哎哎哎哎哎哎喲喲"},
-	{" ", "-", EZ_STRREPLACE_ALL, "Goo-Goo-Bird-Tool"},
-	{" ", "", EZ_STRREPLACE_FIRST, "meowmeow"},
-	{"m", "ow", EZ_STRREPLACE_FIRST, "oweow meow meow"},
+	{"ab", "b", ez_string::EZ_STRREPLACE_ALL, "ab"},
+	{"c", "linux", ez_string::EZ_STRREPLACE_ALL, "abablinux"},
+	{"a", "bc", ez_string::EZ_STRREPLACE_FIRST, "bcaaaaaaaaaaabc"},
+	{"哎", "喲", ez_string::EZ_STRREPLACE_LAST, "哎哎哎哎哎哎哎喲喲"},
+	{" ", "-", ez_string::EZ_STRREPLACE_ALL, "Goo-Goo-Bird-Tool"},
+	{" ", "", ez_string::EZ_STRREPLACE_FIRST, "meowmeow"},
+	{"m", "ow", ez_string::EZ_STRREPLACE_FIRST, "oweow meow meow"},
 });
 
 TEST(strreplace, disable_in_place_enable_auto_realloc) {
@@ -48,7 +48,7 @@ TEST(strreplace, disable_in_place_enable_auto_realloc) {
 		errno = 0;
 		std::string tmp_str(test_lib::test_string[index]);
 		std::unique_ptr<char[], decltype(&free)> ez_test(
-			ez_strreplace(tmp_str.data(), test.target_str.c_str(),
+			ez_string::ez_strreplace(tmp_str.data(), test.target_str.c_str(),
 						  test.replace_str.c_str(), test.replace_mode, false,
 						  true),
 			&free);
@@ -71,7 +71,7 @@ TEST(strreplace, enable_in_place_disable_auto_realloc) {
 		std::string ez_test;
 		{
 			std::string tmp_str(test_lib::test_string[index]);
-			if (ez_strreplace(tmp_str.data(), test.target_str.c_str(),
+			if (ez_string::ez_strreplace(tmp_str.data(), test.target_str.c_str(),
 							  test.replace_str.c_str(), test.replace_mode, true,
 							  false) == nullptr &&
 				errno == ENOMEM) {

@@ -8,24 +8,24 @@
 #include <string>
 
 TEST_F(ERRNO_TEST, strstr_all_null) {
-	EXPECT_EQ(ez_strstr(nullptr, nullptr), nullptr);
+	EXPECT_EQ(ez_string::ez_strstr(nullptr, nullptr), nullptr);
 	EXPECT_EQ(errno, EINVAL);
 }
 
 TEST_F(ERRNO_TEST, strstr_haystack_null) {
-	EXPECT_EQ(ez_strstr(nullptr, "test"), nullptr);
+	EXPECT_EQ(ez_string::ez_strstr(nullptr, "test"), nullptr);
 	EXPECT_EQ(errno, EINVAL);
 }
 
 TEST_F(ERRNO_TEST, strstr_needle_null) {
 	const std::string test = "test";
-	EXPECT_EQ(ez_strstr(test.c_str(), nullptr), nullptr);
+	EXPECT_EQ(ez_string::ez_strstr(test.c_str(), nullptr), nullptr);
 	EXPECT_EQ(errno, EINVAL);
 }
 
 TEST(strstr, needle_empty_string) {
 	const std::string test = "test";
-	EXPECT_EQ(ez_strstr(test.c_str(), ""), test.c_str());
+	EXPECT_EQ(ez_string::ez_strstr(test.c_str(), ""), test.c_str());
 }
 
 TEST(strstr, normal) {
@@ -36,7 +36,7 @@ TEST(strstr, normal) {
 
 	for (const std::string &haystack : test_lib::test_string) {
 		for (const std::string &needle : test_strstr) {
-			const char *ez_test(ez_strstr(haystack.c_str(), needle.c_str()));
+			const char *ez_test(ez_string::ez_strstr(haystack.c_str(), needle.c_str()));
 			const char *std_test(std::strstr(haystack.c_str(), needle.c_str()));
 			EXPECT_EQ(ez_test, std_test)
 				<< "haystack memory address: "

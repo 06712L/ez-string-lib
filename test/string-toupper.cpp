@@ -7,7 +7,7 @@ TEST(toupper, normal) {
 	for (unsigned char c = '\0'; c <= '\x7f';
 		 c++) // NUL(\0) is first ASCII, DEL(\x7f) is last ASCII
 	{
-		EXPECT_EQ(ez_toupper(static_cast<char>(c)), std::toupper(c))
+		EXPECT_EQ(ez_string::ez_toupper(static_cast<char>(c)), std::toupper(c))
 			<< "test character: [" << c << "]\n";
 	}
 }
