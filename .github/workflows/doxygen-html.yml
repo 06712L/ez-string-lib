@@ -1,0 +1,42 @@
+name: Build Doxygen HTML
+
+permissions: 
+  contents: read
+  pages: write
+  id-token: write
+
+on: 
+  workflow_dispatch: 
+
+jobs:
+  run-doxygen:
+      runs-on: ubuntu-latest
+
+      steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Install doxygen
+        run: sudo apt-get update && sudo apt-get install -y doxygen
+
+      - name: Run doxygen to build html
+        run: doxygen
+
+      - name: Upload pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: html/
+
+  deploy:
+    needs: run-doxygen
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

@@ -15,7 +15,7 @@ jobs:
       - name: Xmake repository
         uses: xmake-io/github-action-setup-xmake@v1
         with:
-         xmake-version: '3.1.2'
+          xmake-version: '3.1.2'
 
       - name: Install format-plugin
         run: xmake addon --yes --install format-plugin
@@ -28,12 +28,12 @@ jobs:
 
       - name: Commit changes
         run: |
-         git config user.name "github-actions[bot]"
-         git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
 
-         git add .
+          git add .
 
-         if ! git diff --staged --quiet; then
+          if ! git diff --staged --quiet; then
             git commit -m "style: auto format [skip ci]"
             git push
-         fi
+          fi
