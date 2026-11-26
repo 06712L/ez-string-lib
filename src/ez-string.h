@@ -159,7 +159,8 @@ typedef enum ez_strreplace_replace_mode {
  * @param auto_realloc whether to automatically reallocate memory
  * @return char* the resulting string
  * @retval NULL the target string was not found; errno is unchanged
- * @retval NULL an argument is invalid or target_str is an empty string; also set errno to EINVAL
+ * @retval NULL an argument is invalid or target_str is an empty string; also
+ * set errno to EINVAL
  * @retval NULL memory allocation failed; also set errno to ENOMEM
  *
  * @note if in_place is false, auto_realloc is ignored
