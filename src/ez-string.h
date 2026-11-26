@@ -228,7 +228,7 @@ enum ez_memcmp_error_code {
 	EZ_MEMCMP_NULL = 256,
 };
 /**
- * @brief compare two memorys
+ * @brief compare two memory areas
  *
  * @param mem1 first memory
  * @param mem2 second memory
