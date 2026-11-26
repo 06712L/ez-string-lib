@@ -3,7 +3,7 @@
  * @author bananah2odev@gmail.com
  * @brief ez-string-lib header
  * @version 0.0.1
- * @date 2026-11-19
+ * @date 2026-11-26
  *
  * @copyright Copyright (c) 2026 Xie
  *
@@ -20,6 +20,8 @@
 namespace ez_string {
 extern "C" {
 #endif
+
+// String vvv
 
 /**
  * @brief get string length
@@ -52,8 +54,10 @@ int ez_strcmp(const char *str1, const char *str2);
  *
  * @param target destination buffer
  * @param str source string
- * @return char* the memory address of the target
+ * @return char* a pointer to the target
  * @retval NULL either argument is NULL; also set errno to EINVAL
+ * 
+ * @note Always appends a null terminator to the target string
  */
 char *ez_strcpy(char *target, const char *str);
 
@@ -62,11 +66,12 @@ char *ez_strcpy(char *target, const char *str);
  *
  * @param target destination buffer
  * @param str source string
- * @param n maximum number of characters to copy
- * @return char* the memory address of the target
+ * @param n up to n characters
+ * @return char* a pointer to the target
  * @retval NULL target or str is NULL; also set errno to EINVAL
  *
- * @note if n is 0, do nothing and return the memory address of the target
+ * @note if n is 0, do nothing and return a pointer to the target
+ * @note Always appends a null terminator to the target string
  */
 char *ez_strncpy(char *target, const char *str, const size_t n);
 
@@ -216,6 +221,8 @@ bool ez_islower(const char c);
  * @return false is lowercase or not letter
  */
 bool ez_isupper(const char c);
+
+// Memory vvv
 
 enum ez_memcmp_error_code {
 	EZ_MEMCMP_NULL = 256,
