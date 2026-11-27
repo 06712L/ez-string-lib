@@ -58,6 +58,8 @@ int ez_strcmp(const char *str1, const char *str2);
  * @retval NULL either argument is NULL; also set errno to EINVAL
  *
  * @note Always appends a null terminator to the target string
+ *
+ * @see ez_memcpy()
  */
 char *ez_strcpy(char *target, const char *str);
 
@@ -72,6 +74,8 @@ char *ez_strcpy(char *target, const char *str);
  *
  * @note if n is 0, do nothing and return a pointer to the target
  * @note Always appends a null terminator to the target string
+ *
+ * @see ez_memcpy()
  */
 char *ez_strncpy(char *target, const char *str, const size_t n);
 
@@ -260,6 +264,22 @@ int ez_memcmp(const void *mem1, const void *mem2, const size_t n);
  * @note if n is 0, return a pointer to s and do nothing
  */
 void *ez_memset(void *s, const char c, const size_t n);
+
+/**
+ * @brief copy a memory area to the target
+ * 
+ * @param target destination buffer
+ * @param src source memory
+ * @param n number of bytes to copy
+ * @return void* a pointer to target
+ * @retval NULL either argument is NULL; also set errno to EINVAL
+ *
+ * @note if n is 0, return a pointer to target and do nothing
+ *
+ * @see ez_strcpy()
+ * @see ez_strncpy()
+ */
+void *ez_memcpy(void *target, const void *src, const size_t n);
 
 #ifdef __cplusplus
 }
