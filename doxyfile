@@ -471,10 +471,10 @@ FORTRAN_COMMENT_AFTER  = 72
 #---------------------------------------------------------------------------
 
 
-SOURCE_BROWSER         = YES
+SOURCE_BROWSER         = NO
 
 
-INLINE_SOURCES         = YES
+INLINE_SOURCES         = NO
 
 
 STRIP_CODE_COMMENTS    = YES
