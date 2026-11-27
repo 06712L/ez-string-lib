@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT
 #include "errno-test.hpp"
 #include "ez-string.h"
 #include "test-lib.hpp"

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT
 #include "ez-string.h"
 #include <errno.h>
 #include <stddef.h>
