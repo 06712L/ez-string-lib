@@ -14,19 +14,13 @@ TEST_F(ERRNO_TEST, memset_s_NULL) {
 }
 
 TEST_F(ERRNO_TEST, memset_n_zero) {
-	std::vector<char> s;
-	try {
-		s.reserve(1);
-	} catch (const std::exception &error) {
-		(void)error;
-		FAIL() << "Memory alloc fail\n";
-	}
-	EXPECT_EQ(ez_string::ez_memset(s.data(), 1, 0), s.data());
+	char s[1]{0};
+	EXPECT_EQ(ez_string::ez_memset(s, 1, 0), s);
 	EXPECT_EQ(errno, 0);
 }
 
 TEST(memset, normal) {
-	for (unsigned char uc = 0; uc < UINT8_MAX; uc++) {
+	for (unsigned char uc = 0; uc <= UINT8_MAX; uc++) {
 		std::vector<char> ez_test;
 		std::vector<char> std_test;
 		try {
