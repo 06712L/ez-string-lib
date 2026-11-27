@@ -5,14 +5,14 @@
 #include <cerrno>
 #include <cstdint>
 #include <cstring>
-#include <string>
 #include <exception>
 #include <gtest/gtest.h>
 #include <memory>
+#include <string>
 #include <vector>
 
 TEST_F(ERRNO_TEST, memcpy_target_null) {
-	EXPECT_EQ(ez_string::ez_memcpy(nullptr, "test",  5), nullptr);
+	EXPECT_EQ(ez_string::ez_memcpy(nullptr, "test", 5), nullptr);
 	EXPECT_EQ(errno, EINVAL);
 }
 
@@ -40,14 +40,21 @@ TEST(memcpy, copy_string) {
 			FAIL() << "Memory alloc fail\n";
 		}
 
-		EXPECT_EQ(std::memcmp(ez_string::ez_memcpy(ez_test.get(), str.c_str(), str_size), std::memcpy(std_test.get(), str.c_str(), str_size), str_size), 0)
-		<< "str: [" << str << "]\n";
+		EXPECT_EQ(
+			std::memcmp(
+				ez_string::ez_memcpy(ez_test.get(), str.c_str(), str_size),
+				std::memcpy(std_test.get(), str.c_str(), str_size), str_size),
+			0)
+			<< "str: [" << str << "]\n";
 	}
 }
 
 TEST(memcpy, copy_uint16_array) {
-	for (uint16_t i = 0; i <= 0x3ff; i++) { // use 0x3ff to reduce the test execution time
-		const std::size_t arr_size = test_lib::min(test_lib::max(i, static_cast<uint16_t>(1)), static_cast<uint16_t>(255));
+	for (uint16_t i = 0; i <= 0x3ff;
+		 i++) { // use 0x3ff to reduce the test execution time
+		const std::size_t arr_size =
+			test_lib::min(test_lib::max(i, static_cast<uint16_t>(1)),
+						  static_cast<uint16_t>(255));
 		const std::size_t arr_size_u16 = arr_size * sizeof(uint16_t);
 		std::vector<uint16_t> test_arr(arr_size, i);
 		std::unique_ptr<uint16_t[]> ez_test;
@@ -59,7 +66,12 @@ TEST(memcpy, copy_uint16_array) {
 			FAIL() << "Memory alloc fail\n";
 		}
 
-		EXPECT_EQ(std::memcmp(ez_string::ez_memcpy(ez_test.get(), test_arr.data(), arr_size_u16), std::memcpy(std_test.get(), test_arr.data(), arr_size_u16), arr_size_u16), 0)
-		<< "i: " << i << '\n';
+		EXPECT_EQ(std::memcmp(ez_string::ez_memcpy(
+								  ez_test.get(), test_arr.data(), arr_size_u16),
+							  std::memcpy(std_test.get(), test_arr.data(),
+										  arr_size_u16),
+							  arr_size_u16),
+				  0)
+			<< "i: " << i << '\n';
 	}
 }

@@ -267,7 +267,7 @@ void *ez_memset(void *s, const char c, const size_t n);
 
 /**
  * @brief copy a memory area to the target
- * 
+ *
  * @param target destination buffer
  * @param src source memory
  * @param n number of bytes to copy
