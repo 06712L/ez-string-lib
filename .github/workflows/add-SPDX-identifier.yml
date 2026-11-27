@@ -4,7 +4,7 @@ permissions:
     contents: write
 
 jobs:
-  format:
+  add-SPDX-identifier:
     if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
 
